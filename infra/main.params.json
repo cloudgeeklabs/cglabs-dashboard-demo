@@ -1,0 +1,32 @@
+{
+  "$schema": "https://schema.management.azure.com/schemas/2019-04-01/deploymentParameters.json#",
+  "contentVersion": "1.0.0.0",
+  "parameters": {
+    "primaryRegion": {
+      "value": "eastus"
+    },
+    "secondaryRegion": {
+      "value": "westus"
+    },
+    "resourcePrefix": {
+      "value": "cglabs"
+    },
+    "demoAppName": {
+      "value": "dashapp"
+    },
+    "dnsObject": {
+      "value": {
+        "name": "cglabs.work",
+        "resGroup": "cglabs-core-dns",
+        "subscriptionId": "be885fcb-091a-41fe-ad69-5eea915d1211"
+      }
+    },
+    "resourceTags": {
+      "value": {
+        "Environment": "PoC",
+        "Project": "Managed Grafana Demo",
+        "DeployedBy": "BenTheBuilder"
+      }
+    }
+  }
+}
