@@ -39,10 +39,16 @@ You will need to have access to an Azure Environment with OWNER Permissions and 
 ## How to Get Started ##
 
 <br />
-Getting started using this Demo is pretty straigh-forward. You would start by Forking this Repo to your own GitHub account and then cloning it down to your local system. 
+Getting started using this Demo is pretty straigh-forward. You would start by Forking this Repo to your own GitHub account and then cloning it down to your local system. If you want to setup the full CICD experience, check out the documentation under /docs/github.md for help getting that all setup. 
 
+<br />
+
+If you plan to just run this locally, you want to make sure you follow the instructions found in /docs/runlocally.md on how to make sure your local workstation is setup to deploy everything. 
 
 <br />
 <hr />
 <br />
-![Deploy Bicep](https://github.com/github/docs/actions/workflows/main.yml/badge.svg)
+
+### Current Status of Repo ###
+
+Pending.... Still under development
