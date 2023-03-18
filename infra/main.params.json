@@ -5,6 +5,12 @@
     "primaryRegion": {
       "value": "eastus"
     },
+    "grafanaAADId":{
+      "metadata": {
+        "description": "This must be the GUID for an AAD User that will be granted RBAC Role 'Grafana Admin' at Subscription Level."
+      },
+      "value": "5343ab1e-9356-413f-a940-9db55950ea21k"
+    },
     "secondaryRegion": {
       "value": "westus"
     },
@@ -24,8 +30,7 @@
     "resourceTags": {
       "value": {
         "Environment": "PoC",
-        "Project": "Managed Grafana Demo",
-        "DeployedBy": "BenTheBuilder"
+        "Project": "Managed Grafana Demo"
       }
     }
   }

@@ -1,7 +1,13 @@
 targetScope='subscription'
 
+@description('Deployed By Information - basically who is deploying this.')
+param deployedBy string = 'DEFAULT'
+
 @description('Primary region of the application')
 param primaryRegion string
+
+@description('AAD User to be configured for Grafana Dashboard Admin.')
+param grafanaAADId string
 
 @description('Secondary region of the application')
 param secondaryRegion string
@@ -27,6 +33,7 @@ var domainFQDN = '${demoAppName}.${dnsObject.name}'
 var prefix = toLower(resourcePrefix)
 var trafficManagerName = '${demoAppName}${uniqueString(primaryRegion)}' //Must be Globally Unique
 var tags = union(resourceTags,{
+  DeployedBy: deployedBy // This can be passed in via Commandline or CICD to identify last Contributor
   LastDeployment: dateTime // updating tags to include "LastDeployment" date/time value
 })
 var appResources = {
@@ -108,12 +115,13 @@ module grafanaDashboard 'modules/grafana.bicep' = {
   }
 }
 
-// Set Grafana SMI to required RBAC Roles on all ResourceGroups() defined in var.resGroupObject
+// Set Grafana Required Roles
 module roleAssignment 'modules/roleAssignment.bicep' = [for rg in items(resGroupObject):  {
   name: '${rg.value.name}-roleAssignments'
-  scope: resourceGroup(rg.value.name)
+  scope: subscription()
   params: {
     grafanaPrincipalId: grafanaDashboard.outputs.grafanaSMI
+    grafanaAADId: grafanaAADId
   }
 }]
 

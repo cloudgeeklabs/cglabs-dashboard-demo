@@ -116,17 +116,52 @@ Once you've updated the parameters file and saved it, you are ready to deploy th
 ## Step 2: Deploy Bicep
 
 **NOTE**
-: The below steps are only required if you plan to execute locally. You could alternatively follow the GitHub Setup doc and use GH Workflows to deploy as well. 
+: The below steps are only required if you plan to execute locally (please review docs for setting up everything `./docs/runlocally.md` before proceeding.). You could alternatively follow the GitHub Setup doc and use GH Workflows to deploy as well. 
 
 <br />
 
-1. Set `infra` as your working directory: `cd ./infra`
-2. Login to Azure CLI:  `az login`.
-3. Set Subscription Context: `az account set --subscription <subscriptionId>` 
-4. Execute Bicep Deployment: `az deployment sub create --name 'dashboardDemo' --location 'eastus' --template-file .\main.bicep --parameters .\main.params.json --query properties.outputs`
-   
+### PowerShell \ Windows ###
+
+```powershell
+$WarningPreference = 'SilentlyContinue'
+
+## Set AzContext to targetted Subscription and set grafanaId
+$azContext = $(Set-AzContext -SubscriptionId '197f4130-ef26-4439-a354-eb5a2a2d7f85')
+$grafanaId = ($azContext.Account.ExtendedProperties.HomeAccountId.Split('.')[0])
+
+## Deploy Infrastructure
+$output = New-AzSubscriptionDeployment `
+  -Name 'dashboardDemo' `
+  -location 'eastus' `
+  -TemplateFile './main.bicep' `
+  -TemplateParameterFile './main.params.json' `
+  -deployedBy $(whoami) `
+  -grafanaAADId $grafanaId
+```
+
+### Azure CLI \ Bash ###
+
+```bash
+# Login to Azure CLI
+az login
+
+# Set AzContext to targetted Subscription 
+az account set --subscription 'REPLACE WITH SUBSCRIPTION ID'
+
+# Deploy Infrastructure (Be sure to capture the output json - it'll be needed for later!)
+az deployment sub create --location 'eastus' --template-file ./infra/main.bicep --parameters ./main.params.json --parameters deployedBy=$(whoami)
+```
+  
 <br />
 
+### Output ###
 > **IMPORTANT: The script may take 5-10 minutes to complete, depending on how long it takes to deploy Upon completion, the script will output JSON with the configured resources and their information..**
 
+<br />
 
+Eventually you will see the following ResourceGroups (names will be differnt) show up under your subscription. 
+
+<!-- markdownlint-disable MD033 -->
+<div style="padding:20px;text-align:center;">
+<img src="./docs/imgs/../../imgs/sampleResGroupOutput.jpg" />
+</div>
