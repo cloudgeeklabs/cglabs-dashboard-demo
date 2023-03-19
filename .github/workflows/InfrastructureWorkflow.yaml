@@ -53,13 +53,11 @@ jobs:
       with:
         inlineScript: |
           $WarningPreference = 'SilentlyContinue'
-          $azContext = $(Set-AzContext -SubscriptionId ${{ env.demoSubscriptionId }})
-          $grafanaId = ($azContext.Account.id) 
+          [void](Set-AzContext -SubscriptionId ${{ env.demoSubscriptionId }})
           $deployment = New-AzSubscriptionDeployment `
             -Name '${{ env.demoDeploymentName }}' `
             -location '${{ env.demoLocation }}' `
             -TemplateFile ${{ env.pathToMainBicep }} `
             -TemplateParameterFile ${{ env.pathToParamsFile }} `
             -deployedBy "${{ github.actor }}" `
-            -grafanaAADId $grafanaId
         azPSVersion: "latest"
