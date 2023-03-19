@@ -15,15 +15,6 @@ jobs:
     steps:
     - name: 'Checkout Working Branch'
       uses: actions/checkout@v1
-
-    - name: Show Me Path Variable
-      run: echo "${{ env.pathToMainBicep }}"
-
-    - name: Show Me PWD
-      run: echo $pwd
-
-    - name: Test-Path
-      run: Test-Path ${{ env.pathToMainBicep }}
       
     - name: 'Login into Azure'
       uses: azure/login@v1
@@ -43,6 +34,9 @@ jobs:
     runs-on: windows-latest
     needs: [Build]
     steps:
+    - name: 'Checkout Working Branch'
+      uses: actions/checkout@v1
+
     - name: 'Login into Azure'
       uses: azure/login@v1
       with:
