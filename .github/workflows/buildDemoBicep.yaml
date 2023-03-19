@@ -26,4 +26,5 @@ jobs:
       uses: azure/cli@v1
       with:
         inlineScript: |
+          az config set bicep.use_binary_from_path=False
           az bicep build --file ./infra/main.bicep --outfile ./infra/build.json
