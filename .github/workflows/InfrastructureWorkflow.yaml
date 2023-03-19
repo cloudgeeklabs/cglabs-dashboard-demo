@@ -56,8 +56,8 @@ jobs:
           $azContext = $(Set-AzContext -SubscriptionId ${{ env.demoSubscriptionId }})
           $grafanaId = ($azContext.Account.id) 
           $deployment = New-AzSubscriptionDeployment `
-            -Name {{ env.demoDeploymentName }} `
-            -location ${{ env.demoLocation }} `
+            -Name '${{ env.demoDeploymentName }}' `
+            -location '${{ env.demoLocation }}' `
             -TemplateFile ${{ env.pathToMainBicep }} `
             -TemplateParameterFile ${{ env.pathToParamsFile }} `
             -deployedBy "${{ github.actor }}" `
