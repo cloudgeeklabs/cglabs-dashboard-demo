@@ -26,4 +26,4 @@ jobs:
       uses: azure/cli@v1
       with:
         inlineScript: |
-          az bicep build -file ${{ env.pathToMainBicep }} -outfile ./infra/buildTest.jsonclear
+          az bicep build -file ${{ env.pathToMainBicep }} -outfile ./infra/buildTest.json
