@@ -15,6 +15,15 @@ jobs:
     steps:
     - name: 'Checkout Working Branch'
       uses: actions/checkout@v1
+
+    - name: Show Me Path Variable
+      run: echo "${{ pathToMainBicep }}"
+
+    - name: Show Me PWD
+      run: echo $pwd
+
+    - name: Test-Path
+      run: Test-Path ${{ pathToMainBicep }}
       
     - name: 'Login into Azure'
       uses: azure/login@v1
@@ -50,8 +59,8 @@ jobs:
           $deployment = New-AzSubscriptionDeployment `
             -Name 'dashboardDemo' `
             -location 'eastus' `
-            -TemplateFile ${{ env.pathToMainBicep }} `
-            -TemplateParameterFile ${{ env.pathToParamsFile }} `
+            -TemplateFile './infra/main.bicep' `
+            -TemplateParameterFile './infra/main.params.json' `
             -deployedBy "${{ github.actor }}" `
             -grafanaAADId $grafanaId
         azPSVersion: "latest"
