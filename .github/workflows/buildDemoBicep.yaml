@@ -17,7 +17,7 @@ jobs:
       uses: actions/checkout@v1
 
     - name: Print User
-      run: ${{ vars.GITHUB_ACTOR }}
+      run: echo ${{ vars.GITHUB_ACTOR }}
       
     - name: 'Login into Azure'
       uses: azure/login@v1
@@ -31,6 +31,7 @@ jobs:
         inlineScript: |
           az config set bicep.use_binary_from_path=False
           az bicep build --file ${{ env.pathToMainBicep }} --outfile ${{ env.pathToBuildArtifact }}
+        azPSVersion: "latest"
 
   Deploy:
     runs-on: windows-latest
@@ -56,3 +57,4 @@ jobs:
             -TemplateParameterFile ${{ env.pathToParamsFile }} `
             -deployedBy ${{ vars.GITHUB_ACTOR }} `
             -grafanaAADId $grafanaId
+        azPSVersion: "latest"
