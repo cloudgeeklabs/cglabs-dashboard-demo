@@ -17,7 +17,7 @@ jobs:
       uses: actions/checkout@v1
 
     - name: Print User
-      run: echo "${{ GITHUB_ACTOR }}"
+      run: echo "${{ github.actor }}"
       
     - name: 'Login into Azure'
       uses: azure/login@v1
@@ -55,6 +55,6 @@ jobs:
             -location 'eastus' `
             -TemplateFile ${{ env.pathToMainBicep }} `
             -TemplateParameterFile ${{ env.pathToParamsFile }} `
-            -deployedBy "${{ GITHUB_ACTOR }}" `
+            -deployedBy "${{ github.actor }}" `
             -grafanaAADId $grafanaId
         azPSVersion: "latest"
