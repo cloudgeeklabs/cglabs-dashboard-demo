@@ -17,13 +17,13 @@ jobs:
       uses: actions/checkout@v1
 
     - name: Show Me Path Variable
-      run: echo "${{ pathToMainBicep }}"
+      run: echo "${{ env.pathToMainBicep }}"
 
     - name: Show Me PWD
       run: echo $pwd
 
     - name: Test-Path
-      run: Test-Path ${{ pathToMainBicep }}
+      run: Test-Path ${{ env.pathToMainBicep }}
       
     - name: 'Login into Azure'
       uses: azure/login@v1
