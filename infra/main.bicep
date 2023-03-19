@@ -115,7 +115,7 @@ module grafanaDashboard 'modules/grafana.bicep' = {
   }
 }
 
-// Set Grafana Required Roles
+// Set Grafana Required Roles at Subscription Scope
 module roleAssignment 'modules/roleAssignment.bicep' = [for rg in items(resGroupObject):  {
   name: '${rg.value.name}-roleAssignments'
   scope: subscription()
@@ -138,7 +138,7 @@ module cosmosdb 'modules/cosmos.bicep' = {
   }
 }
 
-// Deploy WebApp and Associated Services
+// Deploy WebApp and Associated Services (done 1 at a time to avoid race condition with validating DNS)
 @batchSize(1)
 module webApp 'modules/webApp.bicep' = [for app in items(appResources): {
   name: app.value.name
@@ -198,3 +198,7 @@ output grafanaSMI string = grafanaDashboard.outputs.grafanaSMI
 output grafanaOutboundIP01 string = grafanaDashboard.outputs.grafanaOutboundIP01
 output grafanaOutboundIP02 string = grafanaDashboard.outputs.grafanaOutboundIP02
 output grafanaEndpoint string = grafanaDashboard.outputs.grafanaEndpoint
+
+// output AppService Info
+output primaryWebAppName string = webApp[0].outputs.webAppName
+output secondaryWebAppName string = webApp[1].outputs.webAppName

@@ -1,0 +1,29 @@
+name: Build DemoApp Infrastructure Artifact
+on:
+  push:
+    branches: [working]
+  workflow_dispatch:
+    
+env:
+  pathToMainBicep: ./infra/main.bicep
+  pathToParamsFile: ./infra/main.params.json
+
+jobs:
+  BuildEnv:
+    runs-on: ubuntu-latest
+    steps:
+    - name: 'Checkout Working Branch'
+      uses: actions/checkout@v1
+
+      
+    - name: 'Login into Azure'
+      uses: azure/login@v1
+      with:
+        creds: ${{ secrets.AZURE_CREDS }}
+        enable-AzPsSession: true
+
+    - name: 'Run Test Build of Bicep Files'
+      uses: azure/cli@v1
+      with:
+        inlineScript: |
+          az bicep build -file ${{ env.pathToMainBicep }} -outfile ./infra/buildTest.jsonclear

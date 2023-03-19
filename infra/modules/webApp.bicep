@@ -365,11 +365,9 @@ module enableSNIWebApp 'enableSNIWebApp.bicep' = {
   }
 }
 
-
 // Output AppServices Configs
-output appWebTestLocations string = string(appWebTest.properties.Locations)
 output webAppFQDN string = webApp.properties.defaultHostName
 output appInsightsName string = appInsights.name
 output managedCertThumbprint string = generateManagedCert.properties.thumbprint
 output managedCertName string = generateManagedCert.name
-
+output webAppName string = webApp.name
