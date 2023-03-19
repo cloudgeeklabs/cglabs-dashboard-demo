@@ -37,7 +37,7 @@ jobs:
   Deploy:
     name: Deploy Stage - Demo Infrastructure (Bicep)
     runs-on: windows-latest
-    needs: [Build]
+    needs: [Test]
     steps:
     - name: 'Checkout Working Branch'
       uses: actions/checkout@v1
