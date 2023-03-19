@@ -10,12 +10,14 @@ env:
   pathToBuildArtifact: ./infra/build.json
 
 jobs:
-  BuildEnv:
-    runs-on: ubuntu-latest
+  Build:
+    runs-on: windows-latest
     steps:
     - name: 'Checkout Working Branch'
       uses: actions/checkout@v1
 
+    - name: Print User
+      run: ${{ vars.GITHUB_ACTOR }}
       
     - name: 'Login into Azure'
       uses: azure/login@v1
@@ -24,13 +26,33 @@ jobs:
         enable-AzPsSession: true
 
     - name: 'Run Test Build of Bicep Files'
-      uses: azure/cli@v1
+      uses: azure/powershell@v1
       with:
         inlineScript: |
           az config set bicep.use_binary_from_path=False
           az bicep build --file ${{ env.pathToMainBicep }} --outfile ${{ env.pathToBuildArtifact }}
 
-    - name: 'Upload Build Artifact'
-      uses: actions/upload-artifact@v1
+  Deploy:
+    runs-on: windows-latest
+    needs: [Build]
+    steps:
+    - name: 'Login into Azure'
+      uses: azure/login@v1
       with:
-        path: ${{ env.pathToBuildArtifact }}
+        creds: ${{ secrets.AZURE_CREDS }}
+        enable-AzPsSession: true
+
+    - name: 'Deploy Demo Environment'
+      uses: azure/powershell@v1
+      with:
+        inlineScript: |
+          $WarningPreference = 'SilentlyContinue'
+          $azContext = $(Set-AzContext -SubscriptionId '197f4130-ef26-4439-a354-eb5a2a2d7f85')
+          $grafanaId = ($azContext.Account.ExtendedProperties.HomeAccountId.Split('.')[0])
+          $deployment = New-AzSubscriptionDeployment `
+            -Name 'dashboardDemo' `
+            -location 'eastus' `
+            -TemplateFile ${{ env.pathToMainBicep }} `
+            -TemplateParameterFile ${{ env.pathToParamsFile }} `
+            -deployedBy ${{ vars.GITHUB_ACTOR }} `
+            -grafanaAADId $grafanaId
