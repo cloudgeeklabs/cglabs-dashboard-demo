@@ -9,4 +9,4 @@ $deployment = New-AzSubscriptionDeployment `
   -location 'eastus' `
   -TemplateFile '../../infra/main.bicep'
   -TemplateParameterFile '../../infra/main.params.json' `
-  -deployedBy $(whoami) `
+  -deployedBy $(whoami)

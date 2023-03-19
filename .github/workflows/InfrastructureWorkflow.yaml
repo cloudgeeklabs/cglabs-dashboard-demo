@@ -3,14 +3,14 @@ on:
   push:
     branches: [working]
   workflow_dispatch:
-    
+
+## Please update these to reflect your requrired Demo Deployment ##  
 env:
-  pathToMainBicep: ./infra/main.bicep
-  pathToParamsFile: ./infra/main.params.json
-  pathToBuildArtifact: ./infra/build.json
   demoSubscriptionId: '197f4130-ef26-4439-a354-eb5a2a2d7f85'
   demoLocation: 'eastus'
   demoDeploymentName: 'dashboardDemo'
+
+
 
 jobs:
   Test:
@@ -31,7 +31,7 @@ jobs:
       with:
         inlineScript: |
           az config set bicep.use_binary_from_path=False
-          az bicep build --file ${{ env.pathToMainBicep }} --outfile ${{ env.pathToBuildArtifact }}
+          az bicep build --file ./infra/main.bicep --outfile ./infra/build.json
         azPSVersion: "latest"
 
   Deploy:
@@ -57,7 +57,7 @@ jobs:
           $deployment = New-AzSubscriptionDeployment `
             -Name '${{ env.demoDeploymentName }}' `
             -location '${{ env.demoLocation }}' `
-            -TemplateFile ${{ env.pathToMainBicep }} `
-            -TemplateParameterFile ${{ env.pathToParamsFile }} `
+            -TemplateFile ./infra/main.bicep `
+            -TemplateParameterFile ./infra/main.params.json `
             -deployedBy "${{ github.actor }}" 
         azPSVersion: "latest"
