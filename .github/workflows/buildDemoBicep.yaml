@@ -7,6 +7,7 @@ on:
 env:
   pathToMainBicep: ./infra/main.bicep
   pathToParamsFile: ./infra/main.params.json
+  pathToBuildArtifact: ./infra/build.json
 
 jobs:
   BuildEnv:
@@ -27,4 +28,9 @@ jobs:
       with:
         inlineScript: |
           az config set bicep.use_binary_from_path=False
-          az bicep build --file ./infra/main.bicep --outfile ./infra/build.json
+          az bicep build --file ${{ env.pathToMainBicep }} --outfile ${{ env.pathToBuildArtifact }}
+
+    - name: 'Upload Build Artifact'
+      uses: actions/upload-artifact@v1
+      with:
+        path: ${{ env.pathToBuildArtifact }}
