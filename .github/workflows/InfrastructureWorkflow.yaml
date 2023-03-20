@@ -10,8 +10,6 @@ env:
   demoLocation: 'eastus'
   demoDeploymentName: 'dashboardDemo'
 
-
-
 jobs:
   Test:
     name: Test Infrastructure (Bicep)
