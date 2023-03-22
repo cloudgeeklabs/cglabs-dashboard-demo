@@ -56,7 +56,7 @@ jobs:
         azPSVersion: "latest"
 
   RunScript:
-    name: Test Deploy Infrastructure 
+    name: Deploy Demo Environment 
     runs-on: windows-latest
     needs: [TestDeploy]
     steps:
