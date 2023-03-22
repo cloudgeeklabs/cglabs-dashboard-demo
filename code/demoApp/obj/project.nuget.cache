@@ -1,8 +1,8 @@
 {
   "version": 2,
-  "dgSpecHash": "QSz8EiJf3mUSHz5KraEmZmV7P1XxxjgOrqJ0PBgT8+cTjW6gegWYzJ8IITeGxZzBbK6YiDISQvkEjDahOXW5bA==",
+  "dgSpecHash": "RNWiV2i17KEGil8VujUf+YXCS0RtjBcBjXSOKuCNbfsvFg4EiGbFfRulc6lvpVkM25UHlyHugZylvld6tj+4jQ==",
   "success": true,
-  "projectFilePath": "C:\\Users\\bemitchell\\repos\\cglabs\\observability-foundations\\app\\todo.csproj",
+  "projectFilePath": "C:\\Users\\bemitchell\\repos\\cglabs\\cglabs-dashboard-demo\\code\\demoApp\\todo.csproj",
   "expectedPackageFiles": [
     "C:\\Users\\bemitchell\\.nuget\\packages\\microsoft.applicationinsights\\2.21.0\\microsoft.applicationinsights.2.21.0.nupkg.sha512",
     "C:\\Users\\bemitchell\\.nuget\\packages\\microsoft.applicationinsights.aspnetcore\\2.21.0\\microsoft.applicationinsights.aspnetcore.2.21.0.nupkg.sha512",

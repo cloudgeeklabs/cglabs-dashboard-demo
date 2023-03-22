@@ -62,4 +62,6 @@ Steps Needed to Make things work:
 -   Download ProfileSettingsFile from AppServices
     -   Document Adding to Variables for Repo
     -   Docuemnt using to deployApp
--   
+-   Build AppLication and Send to AppServices
+    -   Document Build Process
+    -   Document Copy Process

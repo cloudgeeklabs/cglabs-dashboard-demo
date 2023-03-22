@@ -1,6 +1,6 @@
 {
   "Version": 1,
-  "Hash": "68yPUsFbxTNL5e8PkMAg8CDrDe7CvvuPzjAm3z8x0oA=",
+  "Hash": "ot3K4wF+ws78rb5sbTA9cs4Au24UAvY/GUEnZSnhodY=",
   "Source": "todo",
   "BasePath": "_content/todo",
   "Mode": "Default",
@@ -10,17 +10,17 @@
     {
       "Name": "todo\\wwwroot",
       "Source": "todo",
-      "ContentRoot": "C:\\Users\\bemitchell\\repos\\cglabs\\observability-foundations\\app\\wwwroot\\",
+      "ContentRoot": "C:\\Users\\bemitchell\\repos\\cglabs\\cglabs-dashboard-demo\\code\\demoApp\\wwwroot\\",
       "BasePath": "_content/todo",
       "Pattern": "**"
     }
   ],
   "Assets": [
     {
-      "Identity": "C:\\Users\\bemitchell\\repos\\cglabs\\observability-foundations\\app\\wwwroot\\css\\site.css",
+      "Identity": "C:\\Users\\bemitchell\\repos\\cglabs\\cglabs-dashboard-demo\\code\\demoApp\\wwwroot\\css\\site.css",
       "SourceId": "todo",
       "SourceType": "Discovered",
-      "ContentRoot": "C:\\Users\\bemitchell\\repos\\cglabs\\observability-foundations\\app\\wwwroot\\",
+      "ContentRoot": "C:\\Users\\bemitchell\\repos\\cglabs\\cglabs-dashboard-demo\\code\\demoApp\\wwwroot\\",
       "BasePath": "_content/todo",
       "RelativePath": "css/site.css",
       "AssetKind": "All",
@@ -34,10 +34,10 @@
       "OriginalItemSpec": "wwwroot\\css\\site.css"
     },
     {
-      "Identity": "C:\\Users\\bemitchell\\repos\\cglabs\\observability-foundations\\app\\wwwroot\\css\\site.min.css",
+      "Identity": "C:\\Users\\bemitchell\\repos\\cglabs\\cglabs-dashboard-demo\\code\\demoApp\\wwwroot\\css\\site.min.css",
       "SourceId": "todo",
       "SourceType": "Discovered",
-      "ContentRoot": "C:\\Users\\bemitchell\\repos\\cglabs\\observability-foundations\\app\\wwwroot\\",
+      "ContentRoot": "C:\\Users\\bemitchell\\repos\\cglabs\\cglabs-dashboard-demo\\code\\demoApp\\wwwroot\\",
       "BasePath": "_content/todo",
       "RelativePath": "css/site.min.css",
       "AssetKind": "All",
@@ -51,10 +51,10 @@
       "OriginalItemSpec": "wwwroot\\css\\site.min.css"
     },
     {
-      "Identity": "C:\\Users\\bemitchell\\repos\\cglabs\\observability-foundations\\app\\wwwroot\\favicon.ico",
+      "Identity": "C:\\Users\\bemitchell\\repos\\cglabs\\cglabs-dashboard-demo\\code\\demoApp\\wwwroot\\favicon.ico",
       "SourceId": "todo",
       "SourceType": "Discovered",
-      "ContentRoot": "C:\\Users\\bemitchell\\repos\\cglabs\\observability-foundations\\app\\wwwroot\\",
+      "ContentRoot": "C:\\Users\\bemitchell\\repos\\cglabs\\cglabs-dashboard-demo\\code\\demoApp\\wwwroot\\",
       "BasePath": "_content/todo",
       "RelativePath": "favicon.ico",
       "AssetKind": "All",
@@ -68,10 +68,10 @@
       "OriginalItemSpec": "wwwroot\\favicon.ico"
     },
     {
-      "Identity": "C:\\Users\\bemitchell\\repos\\cglabs\\observability-foundations\\app\\wwwroot\\js\\site.js",
+      "Identity": "C:\\Users\\bemitchell\\repos\\cglabs\\cglabs-dashboard-demo\\code\\demoApp\\wwwroot\\js\\site.js",
       "SourceId": "todo",
       "SourceType": "Discovered",
-      "ContentRoot": "C:\\Users\\bemitchell\\repos\\cglabs\\observability-foundations\\app\\wwwroot\\",
+      "ContentRoot": "C:\\Users\\bemitchell\\repos\\cglabs\\cglabs-dashboard-demo\\code\\demoApp\\wwwroot\\",
       "BasePath": "_content/todo",
       "RelativePath": "js/site.js",
       "AssetKind": "All",
@@ -85,10 +85,10 @@
       "OriginalItemSpec": "wwwroot\\js\\site.js"
     },
     {
-      "Identity": "C:\\Users\\bemitchell\\repos\\cglabs\\observability-foundations\\app\\wwwroot\\js\\site.min.js",
+      "Identity": "C:\\Users\\bemitchell\\repos\\cglabs\\cglabs-dashboard-demo\\code\\demoApp\\wwwroot\\js\\site.min.js",
       "SourceId": "todo",
       "SourceType": "Discovered",
-      "ContentRoot": "C:\\Users\\bemitchell\\repos\\cglabs\\observability-foundations\\app\\wwwroot\\",
+      "ContentRoot": "C:\\Users\\bemitchell\\repos\\cglabs\\cglabs-dashboard-demo\\code\\demoApp\\wwwroot\\",
       "BasePath": "_content/todo",
       "RelativePath": "js/site.min.js",
       "AssetKind": "All",
@@ -102,10 +102,10 @@
       "OriginalItemSpec": "wwwroot\\js\\site.min.js"
     },
     {
-      "Identity": "C:\\Users\\bemitchell\\repos\\cglabs\\observability-foundations\\app\\wwwroot\\lib\\bootstrap\\.bower.json",
+      "Identity": "C:\\Users\\bemitchell\\repos\\cglabs\\cglabs-dashboard-demo\\code\\demoApp\\wwwroot\\lib\\bootstrap\\.bower.json",
       "SourceId": "todo",
       "SourceType": "Discovered",
-      "ContentRoot": "C:\\Users\\bemitchell\\repos\\cglabs\\observability-foundations\\app\\wwwroot\\",
+      "ContentRoot": "C:\\Users\\bemitchell\\repos\\cglabs\\cglabs-dashboard-demo\\code\\demoApp\\wwwroot\\",
       "BasePath": "_content/todo",
       "RelativePath": "lib/bootstrap/.bower.json",
       "AssetKind": "All",
@@ -119,10 +119,10 @@
       "OriginalItemSpec": "wwwroot\\lib\\bootstrap\\.bower.json"
     },
     {
-      "Identity": "C:\\Users\\bemitchell\\repos\\cglabs\\observability-foundations\\app\\wwwroot\\lib\\bootstrap\\dist\\css\\bootstrap-theme.css",
+      "Identity": "C:\\Users\\bemitchell\\repos\\cglabs\\cglabs-dashboard-demo\\code\\demoApp\\wwwroot\\lib\\bootstrap\\dist\\css\\bootstrap-theme.css",
       "SourceId": "todo",
       "SourceType": "Discovered",
-      "ContentRoot": "C:\\Users\\bemitchell\\repos\\cglabs\\observability-foundations\\app\\wwwroot\\",
+      "ContentRoot": "C:\\Users\\bemitchell\\repos\\cglabs\\cglabs-dashboard-demo\\code\\demoApp\\wwwroot\\",
       "BasePath": "_content/todo",
       "RelativePath": "lib/bootstrap/dist/css/bootstrap-theme.css",
       "AssetKind": "All",
@@ -136,10 +136,10 @@
       "OriginalItemSpec": "wwwroot\\lib\\bootstrap\\dist\\css\\bootstrap-theme.css"
     },
     {
-      "Identity": "C:\\Users\\bemitchell\\repos\\cglabs\\observability-foundations\\app\\wwwroot\\lib\\bootstrap\\dist\\css\\bootstrap-theme.css.map",
+      "Identity": "C:\\Users\\bemitchell\\repos\\cglabs\\cglabs-dashboard-demo\\code\\demoApp\\wwwroot\\lib\\bootstrap\\dist\\css\\bootstrap-theme.css.map",
       "SourceId": "todo",
       "SourceType": "Discovered",
-      "ContentRoot": "C:\\Users\\bemitchell\\repos\\cglabs\\observability-foundations\\app\\wwwroot\\",
+      "ContentRoot": "C:\\Users\\bemitchell\\repos\\cglabs\\cglabs-dashboard-demo\\code\\demoApp\\wwwroot\\",
       "BasePath": "_content/todo",
       "RelativePath": "lib/bootstrap/dist/css/bootstrap-theme.css.map",
       "AssetKind": "All",
@@ -153,10 +153,10 @@
       "OriginalItemSpec": "wwwroot\\lib\\bootstrap\\dist\\css\\bootstrap-theme.css.map"
     },
     {
-      "Identity": "C:\\Users\\bemitchell\\repos\\cglabs\\observability-foundations\\app\\wwwroot\\lib\\bootstrap\\dist\\css\\bootstrap-theme.min.css",
+      "Identity": "C:\\Users\\bemitchell\\repos\\cglabs\\cglabs-dashboard-demo\\code\\demoApp\\wwwroot\\lib\\bootstrap\\dist\\css\\bootstrap-theme.min.css",
       "SourceId": "todo",
       "SourceType": "Discovered",
-      "ContentRoot": "C:\\Users\\bemitchell\\repos\\cglabs\\observability-foundations\\app\\wwwroot\\",
+      "ContentRoot": "C:\\Users\\bemitchell\\repos\\cglabs\\cglabs-dashboard-demo\\code\\demoApp\\wwwroot\\",
       "BasePath": "_content/todo",
       "RelativePath": "lib/bootstrap/dist/css/bootstrap-theme.min.css",
       "AssetKind": "All",
@@ -170,10 +170,10 @@
       "OriginalItemSpec": "wwwroot\\lib\\bootstrap\\dist\\css\\bootstrap-theme.min.css"
     },
     {
-      "Identity": "C:\\Users\\bemitchell\\repos\\cglabs\\observability-foundations\\app\\wwwroot\\lib\\bootstrap\\dist\\css\\bootstrap-theme.min.css.map",
+      "Identity": "C:\\Users\\bemitchell\\repos\\cglabs\\cglabs-dashboard-demo\\code\\demoApp\\wwwroot\\lib\\bootstrap\\dist\\css\\bootstrap-theme.min.css.map",
       "SourceId": "todo",
       "SourceType": "Discovered",
-      "ContentRoot": "C:\\Users\\bemitchell\\repos\\cglabs\\observability-foundations\\app\\wwwroot\\",
+      "ContentRoot": "C:\\Users\\bemitchell\\repos\\cglabs\\cglabs-dashboard-demo\\code\\demoApp\\wwwroot\\",
       "BasePath": "_content/todo",
       "RelativePath": "lib/bootstrap/dist/css/bootstrap-theme.min.css.map",
       "AssetKind": "All",
@@ -187,10 +187,10 @@
       "OriginalItemSpec": "wwwroot\\lib\\bootstrap\\dist\\css\\bootstrap-theme.min.css.map"
     },
     {
-      "Identity": "C:\\Users\\bemitchell\\repos\\cglabs\\observability-foundations\\app\\wwwroot\\lib\\bootstrap\\dist\\css\\bootstrap.css",
+      "Identity": "C:\\Users\\bemitchell\\repos\\cglabs\\cglabs-dashboard-demo\\code\\demoApp\\wwwroot\\lib\\bootstrap\\dist\\css\\bootstrap.css",
       "SourceId": "todo",
       "SourceType": "Discovered",
-      "ContentRoot": "C:\\Users\\bemitchell\\repos\\cglabs\\observability-foundations\\app\\wwwroot\\",
+      "ContentRoot": "C:\\Users\\bemitchell\\repos\\cglabs\\cglabs-dashboard-demo\\code\\demoApp\\wwwroot\\",
       "BasePath": "_content/todo",
       "RelativePath": "lib/bootstrap/dist/css/bootstrap.css",
       "AssetKind": "All",
@@ -204,10 +204,10 @@
       "OriginalItemSpec": "wwwroot\\lib\\bootstrap\\dist\\css\\bootstrap.css"
     },
     {
-      "Identity": "C:\\Users\\bemitchell\\repos\\cglabs\\observability-foundations\\app\\wwwroot\\lib\\bootstrap\\dist\\css\\bootstrap.css.map",
+      "Identity": "C:\\Users\\bemitchell\\repos\\cglabs\\cglabs-dashboard-demo\\code\\demoApp\\wwwroot\\lib\\bootstrap\\dist\\css\\bootstrap.css.map",
       "SourceId": "todo",
       "SourceType": "Discovered",
-      "ContentRoot": "C:\\Users\\bemitchell\\repos\\cglabs\\observability-foundations\\app\\wwwroot\\",
+      "ContentRoot": "C:\\Users\\bemitchell\\repos\\cglabs\\cglabs-dashboard-demo\\code\\demoApp\\wwwroot\\",
       "BasePath": "_content/todo",
       "RelativePath": "lib/bootstrap/dist/css/bootstrap.css.map",
       "AssetKind": "All",
@@ -221,10 +221,10 @@
       "OriginalItemSpec": "wwwroot\\lib\\bootstrap\\dist\\css\\bootstrap.css.map"
     },
     {
-      "Identity": "C:\\Users\\bemitchell\\repos\\cglabs\\observability-foundations\\app\\wwwroot\\lib\\bootstrap\\dist\\css\\bootstrap.min.css",
+      "Identity": "C:\\Users\\bemitchell\\repos\\cglabs\\cglabs-dashboard-demo\\code\\demoApp\\wwwroot\\lib\\bootstrap\\dist\\css\\bootstrap.min.css",
       "SourceId": "todo",
       "SourceType": "Discovered",
-      "ContentRoot": "C:\\Users\\bemitchell\\repos\\cglabs\\observability-foundations\\app\\wwwroot\\",
+      "ContentRoot": "C:\\Users\\bemitchell\\repos\\cglabs\\cglabs-dashboard-demo\\code\\demoApp\\wwwroot\\",
       "BasePath": "_content/todo",
       "RelativePath": "lib/bootstrap/dist/css/bootstrap.min.css",
       "AssetKind": "All",
@@ -238,10 +238,10 @@
       "OriginalItemSpec": "wwwroot\\lib\\bootstrap\\dist\\css\\bootstrap.min.css"
     },
     {
-      "Identity": "C:\\Users\\bemitchell\\repos\\cglabs\\observability-foundations\\app\\wwwroot\\lib\\bootstrap\\dist\\css\\bootstrap.min.css.map",
+      "Identity": "C:\\Users\\bemitchell\\repos\\cglabs\\cglabs-dashboard-demo\\code\\demoApp\\wwwroot\\lib\\bootstrap\\dist\\css\\bootstrap.min.css.map",
       "SourceId": "todo",
       "SourceType": "Discovered",
-      "ContentRoot": "C:\\Users\\bemitchell\\repos\\cglabs\\observability-foundations\\app\\wwwroot\\",
+      "ContentRoot": "C:\\Users\\bemitchell\\repos\\cglabs\\cglabs-dashboard-demo\\code\\demoApp\\wwwroot\\",
       "BasePath": "_content/todo",
       "RelativePath": "lib/bootstrap/dist/css/bootstrap.min.css.map",
       "AssetKind": "All",
@@ -255,10 +255,10 @@
       "OriginalItemSpec": "wwwroot\\lib\\bootstrap\\dist\\css\\bootstrap.min.css.map"
     },
     {
-      "Identity": "C:\\Users\\bemitchell\\repos\\cglabs\\observability-foundations\\app\\wwwroot\\lib\\bootstrap\\dist\\fonts\\glyphicons-halflings-regular.eot",
+      "Identity": "C:\\Users\\bemitchell\\repos\\cglabs\\cglabs-dashboard-demo\\code\\demoApp\\wwwroot\\lib\\bootstrap\\dist\\fonts\\glyphicons-halflings-regular.eot",
       "SourceId": "todo",
       "SourceType": "Discovered",
-      "ContentRoot": "C:\\Users\\bemitchell\\repos\\cglabs\\observability-foundations\\app\\wwwroot\\",
+      "ContentRoot": "C:\\Users\\bemitchell\\repos\\cglabs\\cglabs-dashboard-demo\\code\\demoApp\\wwwroot\\",
       "BasePath": "_content/todo",
       "RelativePath": "lib/bootstrap/dist/fonts/glyphicons-halflings-regular.eot",
       "AssetKind": "All",
@@ -272,10 +272,10 @@
       "OriginalItemSpec": "wwwroot\\lib\\bootstrap\\dist\\fonts\\glyphicons-halflings-regular.eot"
     },
     {
-      "Identity": "C:\\Users\\bemitchell\\repos\\cglabs\\observability-foundations\\app\\wwwroot\\lib\\bootstrap\\dist\\fonts\\glyphicons-halflings-regular.svg",
+      "Identity": "C:\\Users\\bemitchell\\repos\\cglabs\\cglabs-dashboard-demo\\code\\demoApp\\wwwroot\\lib\\bootstrap\\dist\\fonts\\glyphicons-halflings-regular.svg",
       "SourceId": "todo",
       "SourceType": "Discovered",
-      "ContentRoot": "C:\\Users\\bemitchell\\repos\\cglabs\\observability-foundations\\app\\wwwroot\\",
+      "ContentRoot": "C:\\Users\\bemitchell\\repos\\cglabs\\cglabs-dashboard-demo\\code\\demoApp\\wwwroot\\",
       "BasePath": "_content/todo",
       "RelativePath": "lib/bootstrap/dist/fonts/glyphicons-halflings-regular.svg",
       "AssetKind": "All",
@@ -289,10 +289,10 @@
       "OriginalItemSpec": "wwwroot\\lib\\bootstrap\\dist\\fonts\\glyphicons-halflings-regular.svg"
     },
     {
-      "Identity": "C:\\Users\\bemitchell\\repos\\cglabs\\observability-foundations\\app\\wwwroot\\lib\\bootstrap\\dist\\fonts\\glyphicons-halflings-regular.ttf",
+      "Identity": "C:\\Users\\bemitchell\\repos\\cglabs\\cglabs-dashboard-demo\\code\\demoApp\\wwwroot\\lib\\bootstrap\\dist\\fonts\\glyphicons-halflings-regular.ttf",
       "SourceId": "todo",
       "SourceType": "Discovered",
-      "ContentRoot": "C:\\Users\\bemitchell\\repos\\cglabs\\observability-foundations\\app\\wwwroot\\",
+      "ContentRoot": "C:\\Users\\bemitchell\\repos\\cglabs\\cglabs-dashboard-demo\\code\\demoApp\\wwwroot\\",
       "BasePath": "_content/todo",
       "RelativePath": "lib/bootstrap/dist/fonts/glyphicons-halflings-regular.ttf",
       "AssetKind": "All",
@@ -306,10 +306,10 @@
       "OriginalItemSpec": "wwwroot\\lib\\bootstrap\\dist\\fonts\\glyphicons-halflings-regular.ttf"
     },
     {
-      "Identity": "C:\\Users\\bemitchell\\repos\\cglabs\\observability-foundations\\app\\wwwroot\\lib\\bootstrap\\dist\\fonts\\glyphicons-halflings-regular.woff",
+      "Identity": "C:\\Users\\bemitchell\\repos\\cglabs\\cglabs-dashboard-demo\\code\\demoApp\\wwwroot\\lib\\bootstrap\\dist\\fonts\\glyphicons-halflings-regular.woff",
       "SourceId": "todo",
       "SourceType": "Discovered",
-      "ContentRoot": "C:\\Users\\bemitchell\\repos\\cglabs\\observability-foundations\\app\\wwwroot\\",
+      "ContentRoot": "C:\\Users\\bemitchell\\repos\\cglabs\\cglabs-dashboard-demo\\code\\demoApp\\wwwroot\\",
       "BasePath": "_content/todo",
       "RelativePath": "lib/bootstrap/dist/fonts/glyphicons-halflings-regular.woff",
       "AssetKind": "All",
@@ -323,10 +323,10 @@
       "OriginalItemSpec": "wwwroot\\lib\\bootstrap\\dist\\fonts\\glyphicons-halflings-regular.woff"
     },
     {
-      "Identity": "C:\\Users\\bemitchell\\repos\\cglabs\\observability-foundations\\app\\wwwroot\\lib\\bootstrap\\dist\\fonts\\glyphicons-halflings-regular.woff2",
+      "Identity": "C:\\Users\\bemitchell\\repos\\cglabs\\cglabs-dashboard-demo\\code\\demoApp\\wwwroot\\lib\\bootstrap\\dist\\fonts\\glyphicons-halflings-regular.woff2",
       "SourceId": "todo",
       "SourceType": "Discovered",
-      "ContentRoot": "C:\\Users\\bemitchell\\repos\\cglabs\\observability-foundations\\app\\wwwroot\\",
+      "ContentRoot": "C:\\Users\\bemitchell\\repos\\cglabs\\cglabs-dashboard-demo\\code\\demoApp\\wwwroot\\",
       "BasePath": "_content/todo",
       "RelativePath": "lib/bootstrap/dist/fonts/glyphicons-halflings-regular.woff2",
       "AssetKind": "All",
@@ -340,10 +340,10 @@
       "OriginalItemSpec": "wwwroot\\lib\\bootstrap\\dist\\fonts\\glyphicons-halflings-regular.woff2"
     },
     {
-      "Identity": "C:\\Users\\bemitchell\\repos\\cglabs\\observability-foundations\\app\\wwwroot\\lib\\bootstrap\\dist\\js\\bootstrap.js",
+      "Identity": "C:\\Users\\bemitchell\\repos\\cglabs\\cglabs-dashboard-demo\\code\\demoApp\\wwwroot\\lib\\bootstrap\\dist\\js\\bootstrap.js",
       "SourceId": "todo",
       "SourceType": "Discovered",
-      "ContentRoot": "C:\\Users\\bemitchell\\repos\\cglabs\\observability-foundations\\app\\wwwroot\\",
+      "ContentRoot": "C:\\Users\\bemitchell\\repos\\cglabs\\cglabs-dashboard-demo\\code\\demoApp\\wwwroot\\",
       "BasePath": "_content/todo",
       "RelativePath": "lib/bootstrap/dist/js/bootstrap.js",
       "AssetKind": "All",
@@ -357,10 +357,10 @@
       "OriginalItemSpec": "wwwroot\\lib\\bootstrap\\dist\\js\\bootstrap.js"
     },
     {
-      "Identity": "C:\\Users\\bemitchell\\repos\\cglabs\\observability-foundations\\app\\wwwroot\\lib\\bootstrap\\dist\\js\\bootstrap.min.js",
+      "Identity": "C:\\Users\\bemitchell\\repos\\cglabs\\cglabs-dashboard-demo\\code\\demoApp\\wwwroot\\lib\\bootstrap\\dist\\js\\bootstrap.min.js",
       "SourceId": "todo",
       "SourceType": "Discovered",
-      "ContentRoot": "C:\\Users\\bemitchell\\repos\\cglabs\\observability-foundations\\app\\wwwroot\\",
+      "ContentRoot": "C:\\Users\\bemitchell\\repos\\cglabs\\cglabs-dashboard-demo\\code\\demoApp\\wwwroot\\",
       "BasePath": "_content/todo",
       "RelativePath": "lib/bootstrap/dist/js/bootstrap.min.js",
       "AssetKind": "All",
@@ -374,10 +374,10 @@
       "OriginalItemSpec": "wwwroot\\lib\\bootstrap\\dist\\js\\bootstrap.min.js"
     },
     {
-      "Identity": "C:\\Users\\bemitchell\\repos\\cglabs\\observability-foundations\\app\\wwwroot\\lib\\bootstrap\\dist\\js\\npm.js",
+      "Identity": "C:\\Users\\bemitchell\\repos\\cglabs\\cglabs-dashboard-demo\\code\\demoApp\\wwwroot\\lib\\bootstrap\\dist\\js\\npm.js",
       "SourceId": "todo",
       "SourceType": "Discovered",
-      "ContentRoot": "C:\\Users\\bemitchell\\repos\\cglabs\\observability-foundations\\app\\wwwroot\\",
+      "ContentRoot": "C:\\Users\\bemitchell\\repos\\cglabs\\cglabs-dashboard-demo\\code\\demoApp\\wwwroot\\",
       "BasePath": "_content/todo",
       "RelativePath": "lib/bootstrap/dist/js/npm.js",
       "AssetKind": "All",
@@ -391,10 +391,10 @@
       "OriginalItemSpec": "wwwroot\\lib\\bootstrap\\dist\\js\\npm.js"
     },
     {
-      "Identity": "C:\\Users\\bemitchell\\repos\\cglabs\\observability-foundations\\app\\wwwroot\\lib\\bootstrap\\LICENSE",
+      "Identity": "C:\\Users\\bemitchell\\repos\\cglabs\\cglabs-dashboard-demo\\code\\demoApp\\wwwroot\\lib\\bootstrap\\LICENSE",
       "SourceId": "todo",
       "SourceType": "Discovered",
-      "ContentRoot": "C:\\Users\\bemitchell\\repos\\cglabs\\observability-foundations\\app\\wwwroot\\",
+      "ContentRoot": "C:\\Users\\bemitchell\\repos\\cglabs\\cglabs-dashboard-demo\\code\\demoApp\\wwwroot\\",
       "BasePath": "_content/todo",
       "RelativePath": "lib/bootstrap/LICENSE",
       "AssetKind": "All",
@@ -408,10 +408,10 @@
       "OriginalItemSpec": "wwwroot\\lib\\bootstrap\\LICENSE"
     },
     {
-      "Identity": "C:\\Users\\bemitchell\\repos\\cglabs\\observability-foundations\\app\\wwwroot\\lib\\jquery-validation-unobtrusive\\.bower.json",
+      "Identity": "C:\\Users\\bemitchell\\repos\\cglabs\\cglabs-dashboard-demo\\code\\demoApp\\wwwroot\\lib\\jquery-validation-unobtrusive\\.bower.json",
       "SourceId": "todo",
       "SourceType": "Discovered",
-      "ContentRoot": "C:\\Users\\bemitchell\\repos\\cglabs\\observability-foundations\\app\\wwwroot\\",
+      "ContentRoot": "C:\\Users\\bemitchell\\repos\\cglabs\\cglabs-dashboard-demo\\code\\demoApp\\wwwroot\\",
       "BasePath": "_content/todo",
       "RelativePath": "lib/jquery-validation-unobtrusive/.bower.json",
       "AssetKind": "All",
@@ -425,10 +425,10 @@
       "OriginalItemSpec": "wwwroot\\lib\\jquery-validation-unobtrusive\\.bower.json"
     },
     {
-      "Identity": "C:\\Users\\bemitchell\\repos\\cglabs\\observability-foundations\\app\\wwwroot\\lib\\jquery-validation-unobtrusive\\jquery.validate.unobtrusive.js",
+      "Identity": "C:\\Users\\bemitchell\\repos\\cglabs\\cglabs-dashboard-demo\\code\\demoApp\\wwwroot\\lib\\jquery-validation-unobtrusive\\jquery.validate.unobtrusive.js",
       "SourceId": "todo",
       "SourceType": "Discovered",
-      "ContentRoot": "C:\\Users\\bemitchell\\repos\\cglabs\\observability-foundations\\app\\wwwroot\\",
+      "ContentRoot": "C:\\Users\\bemitchell\\repos\\cglabs\\cglabs-dashboard-demo\\code\\demoApp\\wwwroot\\",
       "BasePath": "_content/todo",
       "RelativePath": "lib/jquery-validation-unobtrusive/jquery.validate.unobtrusive.js",
       "AssetKind": "All",
@@ -442,10 +442,10 @@
       "OriginalItemSpec": "wwwroot\\lib\\jquery-validation-unobtrusive\\jquery.validate.unobtrusive.js"
     },
     {
-      "Identity": "C:\\Users\\bemitchell\\repos\\cglabs\\observability-foundations\\app\\wwwroot\\lib\\jquery-validation-unobtrusive\\jquery.validate.unobtrusive.min.js",
+      "Identity": "C:\\Users\\bemitchell\\repos\\cglabs\\cglabs-dashboard-demo\\code\\demoApp\\wwwroot\\lib\\jquery-validation-unobtrusive\\jquery.validate.unobtrusive.min.js",
       "SourceId": "todo",
       "SourceType": "Discovered",
-      "ContentRoot": "C:\\Users\\bemitchell\\repos\\cglabs\\observability-foundations\\app\\wwwroot\\",
+      "ContentRoot": "C:\\Users\\bemitchell\\repos\\cglabs\\cglabs-dashboard-demo\\code\\demoApp\\wwwroot\\",
       "BasePath": "_content/todo",
       "RelativePath": "lib/jquery-validation-unobtrusive/jquery.validate.unobtrusive.min.js",
       "AssetKind": "All",
@@ -459,10 +459,10 @@
       "OriginalItemSpec": "wwwroot\\lib\\jquery-validation-unobtrusive\\jquery.validate.unobtrusive.min.js"
     },
     {
-      "Identity": "C:\\Users\\bemitchell\\repos\\cglabs\\observability-foundations\\app\\wwwroot\\lib\\jquery-validation\\.bower.json",
+      "Identity": "C:\\Users\\bemitchell\\repos\\cglabs\\cglabs-dashboard-demo\\code\\demoApp\\wwwroot\\lib\\jquery-validation\\.bower.json",
       "SourceId": "todo",
       "SourceType": "Discovered",
-      "ContentRoot": "C:\\Users\\bemitchell\\repos\\cglabs\\observability-foundations\\app\\wwwroot\\",
+      "ContentRoot": "C:\\Users\\bemitchell\\repos\\cglabs\\cglabs-dashboard-demo\\code\\demoApp\\wwwroot\\",
       "BasePath": "_content/todo",
       "RelativePath": "lib/jquery-validation/.bower.json",
       "AssetKind": "All",
@@ -476,10 +476,10 @@
       "OriginalItemSpec": "wwwroot\\lib\\jquery-validation\\.bower.json"
     },
     {
-      "Identity": "C:\\Users\\bemitchell\\repos\\cglabs\\observability-foundations\\app\\wwwroot\\lib\\jquery-validation\\dist\\additional-methods.js",
+      "Identity": "C:\\Users\\bemitchell\\repos\\cglabs\\cglabs-dashboard-demo\\code\\demoApp\\wwwroot\\lib\\jquery-validation\\dist\\additional-methods.js",
       "SourceId": "todo",
       "SourceType": "Discovered",
-      "ContentRoot": "C:\\Users\\bemitchell\\repos\\cglabs\\observability-foundations\\app\\wwwroot\\",
+      "ContentRoot": "C:\\Users\\bemitchell\\repos\\cglabs\\cglabs-dashboard-demo\\code\\demoApp\\wwwroot\\",
       "BasePath": "_content/todo",
       "RelativePath": "lib/jquery-validation/dist/additional-methods.js",
       "AssetKind": "All",
@@ -493,10 +493,10 @@
       "OriginalItemSpec": "wwwroot\\lib\\jquery-validation\\dist\\additional-methods.js"
     },
     {
-      "Identity": "C:\\Users\\bemitchell\\repos\\cglabs\\observability-foundations\\app\\wwwroot\\lib\\jquery-validation\\dist\\additional-methods.min.js",
+      "Identity": "C:\\Users\\bemitchell\\repos\\cglabs\\cglabs-dashboard-demo\\code\\demoApp\\wwwroot\\lib\\jquery-validation\\dist\\additional-methods.min.js",
       "SourceId": "todo",
       "SourceType": "Discovered",
-      "ContentRoot": "C:\\Users\\bemitchell\\repos\\cglabs\\observability-foundations\\app\\wwwroot\\",
+      "ContentRoot": "C:\\Users\\bemitchell\\repos\\cglabs\\cglabs-dashboard-demo\\code\\demoApp\\wwwroot\\",
       "BasePath": "_content/todo",
       "RelativePath": "lib/jquery-validation/dist/additional-methods.min.js",
       "AssetKind": "All",
@@ -510,10 +510,10 @@
       "OriginalItemSpec": "wwwroot\\lib\\jquery-validation\\dist\\additional-methods.min.js"
     },
     {
-      "Identity": "C:\\Users\\bemitchell\\repos\\cglabs\\observability-foundations\\app\\wwwroot\\lib\\jquery-validation\\dist\\jquery.validate.js",
+      "Identity": "C:\\Users\\bemitchell\\repos\\cglabs\\cglabs-dashboard-demo\\code\\demoApp\\wwwroot\\lib\\jquery-validation\\dist\\jquery.validate.js",
       "SourceId": "todo",
       "SourceType": "Discovered",
-      "ContentRoot": "C:\\Users\\bemitchell\\repos\\cglabs\\observability-foundations\\app\\wwwroot\\",
+      "ContentRoot": "C:\\Users\\bemitchell\\repos\\cglabs\\cglabs-dashboard-demo\\code\\demoApp\\wwwroot\\",
       "BasePath": "_content/todo",
       "RelativePath": "lib/jquery-validation/dist/jquery.validate.js",
       "AssetKind": "All",
@@ -527,10 +527,10 @@
       "OriginalItemSpec": "wwwroot\\lib\\jquery-validation\\dist\\jquery.validate.js"
     },
     {
-      "Identity": "C:\\Users\\bemitchell\\repos\\cglabs\\observability-foundations\\app\\wwwroot\\lib\\jquery-validation\\dist\\jquery.validate.min.js",
+      "Identity": "C:\\Users\\bemitchell\\repos\\cglabs\\cglabs-dashboard-demo\\code\\demoApp\\wwwroot\\lib\\jquery-validation\\dist\\jquery.validate.min.js",
       "SourceId": "todo",
       "SourceType": "Discovered",
-      "ContentRoot": "C:\\Users\\bemitchell\\repos\\cglabs\\observability-foundations\\app\\wwwroot\\",
+      "ContentRoot": "C:\\Users\\bemitchell\\repos\\cglabs\\cglabs-dashboard-demo\\code\\demoApp\\wwwroot\\",
       "BasePath": "_content/todo",
       "RelativePath": "lib/jquery-validation/dist/jquery.validate.min.js",
       "AssetKind": "All",
@@ -544,10 +544,10 @@
       "OriginalItemSpec": "wwwroot\\lib\\jquery-validation\\dist\\jquery.validate.min.js"
     },
     {
-      "Identity": "C:\\Users\\bemitchell\\repos\\cglabs\\observability-foundations\\app\\wwwroot\\lib\\jquery-validation\\LICENSE.md",
+      "Identity": "C:\\Users\\bemitchell\\repos\\cglabs\\cglabs-dashboard-demo\\code\\demoApp\\wwwroot\\lib\\jquery-validation\\LICENSE.md",
       "SourceId": "todo",
       "SourceType": "Discovered",
-      "ContentRoot": "C:\\Users\\bemitchell\\repos\\cglabs\\observability-foundations\\app\\wwwroot\\",
+      "ContentRoot": "C:\\Users\\bemitchell\\repos\\cglabs\\cglabs-dashboard-demo\\code\\demoApp\\wwwroot\\",
       "BasePath": "_content/todo",
       "RelativePath": "lib/jquery-validation/LICENSE.md",
       "AssetKind": "All",
@@ -561,10 +561,10 @@
       "OriginalItemSpec": "wwwroot\\lib\\jquery-validation\\LICENSE.md"
     },
     {
-      "Identity": "C:\\Users\\bemitchell\\repos\\cglabs\\observability-foundations\\app\\wwwroot\\lib\\jquery\\.bower.json",
+      "Identity": "C:\\Users\\bemitchell\\repos\\cglabs\\cglabs-dashboard-demo\\code\\demoApp\\wwwroot\\lib\\jquery\\.bower.json",
       "SourceId": "todo",
       "SourceType": "Discovered",
-      "ContentRoot": "C:\\Users\\bemitchell\\repos\\cglabs\\observability-foundations\\app\\wwwroot\\",
+      "ContentRoot": "C:\\Users\\bemitchell\\repos\\cglabs\\cglabs-dashboard-demo\\code\\demoApp\\wwwroot\\",
       "BasePath": "_content/todo",
       "RelativePath": "lib/jquery/.bower.json",
       "AssetKind": "All",
@@ -578,10 +578,10 @@
       "OriginalItemSpec": "wwwroot\\lib\\jquery\\.bower.json"
     },
     {
-      "Identity": "C:\\Users\\bemitchell\\repos\\cglabs\\observability-foundations\\app\\wwwroot\\lib\\jquery\\dist\\jquery.js",
+      "Identity": "C:\\Users\\bemitchell\\repos\\cglabs\\cglabs-dashboard-demo\\code\\demoApp\\wwwroot\\lib\\jquery\\dist\\jquery.js",
       "SourceId": "todo",
       "SourceType": "Discovered",
-      "ContentRoot": "C:\\Users\\bemitchell\\repos\\cglabs\\observability-foundations\\app\\wwwroot\\",
+      "ContentRoot": "C:\\Users\\bemitchell\\repos\\cglabs\\cglabs-dashboard-demo\\code\\demoApp\\wwwroot\\",
       "BasePath": "_content/todo",
       "RelativePath": "lib/jquery/dist/jquery.js",
       "AssetKind": "All",
@@ -595,10 +595,10 @@
       "OriginalItemSpec": "wwwroot\\lib\\jquery\\dist\\jquery.js"
     },
     {
-      "Identity": "C:\\Users\\bemitchell\\repos\\cglabs\\observability-foundations\\app\\wwwroot\\lib\\jquery\\dist\\jquery.min.js",
+      "Identity": "C:\\Users\\bemitchell\\repos\\cglabs\\cglabs-dashboard-demo\\code\\demoApp\\wwwroot\\lib\\jquery\\dist\\jquery.min.js",
       "SourceId": "todo",
       "SourceType": "Discovered",
-      "ContentRoot": "C:\\Users\\bemitchell\\repos\\cglabs\\observability-foundations\\app\\wwwroot\\",
+      "ContentRoot": "C:\\Users\\bemitchell\\repos\\cglabs\\cglabs-dashboard-demo\\code\\demoApp\\wwwroot\\",
       "BasePath": "_content/todo",
       "RelativePath": "lib/jquery/dist/jquery.min.js",
       "AssetKind": "All",
@@ -612,10 +612,10 @@
       "OriginalItemSpec": "wwwroot\\lib\\jquery\\dist\\jquery.min.js"
     },
     {
-      "Identity": "C:\\Users\\bemitchell\\repos\\cglabs\\observability-foundations\\app\\wwwroot\\lib\\jquery\\dist\\jquery.min.map",
+      "Identity": "C:\\Users\\bemitchell\\repos\\cglabs\\cglabs-dashboard-demo\\code\\demoApp\\wwwroot\\lib\\jquery\\dist\\jquery.min.map",
       "SourceId": "todo",
       "SourceType": "Discovered",
-      "ContentRoot": "C:\\Users\\bemitchell\\repos\\cglabs\\observability-foundations\\app\\wwwroot\\",
+      "ContentRoot": "C:\\Users\\bemitchell\\repos\\cglabs\\cglabs-dashboard-demo\\code\\demoApp\\wwwroot\\",
       "BasePath": "_content/todo",
       "RelativePath": "lib/jquery/dist/jquery.min.map",
       "AssetKind": "All",
@@ -629,10 +629,10 @@
       "OriginalItemSpec": "wwwroot\\lib\\jquery\\dist\\jquery.min.map"
     },
     {
-      "Identity": "C:\\Users\\bemitchell\\repos\\cglabs\\observability-foundations\\app\\wwwroot\\lib\\jquery\\LICENSE.txt",
+      "Identity": "C:\\Users\\bemitchell\\repos\\cglabs\\cglabs-dashboard-demo\\code\\demoApp\\wwwroot\\lib\\jquery\\LICENSE.txt",
       "SourceId": "todo",
       "SourceType": "Discovered",
-      "ContentRoot": "C:\\Users\\bemitchell\\repos\\cglabs\\observability-foundations\\app\\wwwroot\\",
+      "ContentRoot": "C:\\Users\\bemitchell\\repos\\cglabs\\cglabs-dashboard-demo\\code\\demoApp\\wwwroot\\",
       "BasePath": "_content/todo",
       "RelativePath": "lib/jquery/LICENSE.txt",
       "AssetKind": "All",
@@ -646,10 +646,10 @@
       "OriginalItemSpec": "wwwroot\\lib\\jquery\\LICENSE.txt"
     },
     {
-      "Identity": "C:\\Users\\bemitchell\\repos\\cglabs\\observability-foundations\\app\\wwwroot\\loaderio-33bec2f25095bc250d2468f4c97205f3.txt",
+      "Identity": "C:\\Users\\bemitchell\\repos\\cglabs\\cglabs-dashboard-demo\\code\\demoApp\\wwwroot\\loaderio-33bec2f25095bc250d2468f4c97205f3.txt",
       "SourceId": "todo",
       "SourceType": "Discovered",
-      "ContentRoot": "C:\\Users\\bemitchell\\repos\\cglabs\\observability-foundations\\app\\wwwroot\\",
+      "ContentRoot": "C:\\Users\\bemitchell\\repos\\cglabs\\cglabs-dashboard-demo\\code\\demoApp\\wwwroot\\",
       "BasePath": "_content/todo",
       "RelativePath": "loaderio-33bec2f25095bc250d2468f4c97205f3.txt",
       "AssetKind": "All",
@@ -663,10 +663,10 @@
       "OriginalItemSpec": "wwwroot\\loaderio-33bec2f25095bc250d2468f4c97205f3.txt"
     },
     {
-      "Identity": "C:\\Users\\bemitchell\\repos\\cglabs\\observability-foundations\\app\\wwwroot\\probe.html",
+      "Identity": "C:\\Users\\bemitchell\\repos\\cglabs\\cglabs-dashboard-demo\\code\\demoApp\\wwwroot\\probe.html",
       "SourceId": "todo",
       "SourceType": "Discovered",
-      "ContentRoot": "C:\\Users\\bemitchell\\repos\\cglabs\\observability-foundations\\app\\wwwroot\\",
+      "ContentRoot": "C:\\Users\\bemitchell\\repos\\cglabs\\cglabs-dashboard-demo\\code\\demoApp\\wwwroot\\",
       "BasePath": "_content/todo",
       "RelativePath": "probe.html",
       "AssetKind": "All",

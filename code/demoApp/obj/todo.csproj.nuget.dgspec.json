@@ -1,17 +1,17 @@
 {
   "format": 1,
   "restore": {
-    "C:\\Users\\bemitchell\\repos\\cglabs\\observability-foundations\\app\\todo.csproj": {}
+    "C:\\Users\\bemitchell\\repos\\cglabs\\cglabs-dashboard-demo\\code\\demoApp\\todo.csproj": {}
   },
   "projects": {
-    "C:\\Users\\bemitchell\\repos\\cglabs\\observability-foundations\\app\\todo.csproj": {
+    "C:\\Users\\bemitchell\\repos\\cglabs\\cglabs-dashboard-demo\\code\\demoApp\\todo.csproj": {
       "version": "1.0.0",
       "restore": {
-        "projectUniqueName": "C:\\Users\\bemitchell\\repos\\cglabs\\observability-foundations\\app\\todo.csproj",
+        "projectUniqueName": "C:\\Users\\bemitchell\\repos\\cglabs\\cglabs-dashboard-demo\\code\\demoApp\\todo.csproj",
         "projectName": "todo",
-        "projectPath": "C:\\Users\\bemitchell\\repos\\cglabs\\observability-foundations\\app\\todo.csproj",
+        "projectPath": "C:\\Users\\bemitchell\\repos\\cglabs\\cglabs-dashboard-demo\\code\\demoApp\\todo.csproj",
         "packagesPath": "C:\\Users\\bemitchell\\.nuget\\packages\\",
-        "outputPath": "C:\\Users\\bemitchell\\repos\\cglabs\\observability-foundations\\app\\obj\\",
+        "outputPath": "C:\\Users\\bemitchell\\repos\\cglabs\\cglabs-dashboard-demo\\code\\demoApp\\obj\\",
         "projectStyle": "PackageReference",
         "configFilePaths": [
           "C:\\Users\\bemitchell\\AppData\\Roaming\\NuGet\\NuGet.Config",
@@ -76,7 +76,7 @@
               "privateAssets": "all"
             }
           },
-          "runtimeIdentifierGraphPath": "C:\\Program Files\\dotnet\\sdk\\7.0.200\\RuntimeIdentifierGraph.json"
+          "runtimeIdentifierGraphPath": "C:\\Program Files\\dotnet\\sdk\\7.0.202\\RuntimeIdentifierGraph.json"
         }
       }
     }

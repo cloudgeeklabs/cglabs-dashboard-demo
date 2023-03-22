@@ -371,3 +371,5 @@ output appInsightsName string = appInsights.name
 output managedCertThumbprint string = generateManagedCert.properties.thumbprint
 output managedCertName string = generateManagedCert.name
 output webAppName string = webApp.name
+output webAppResGroup string = webApp.properties.resourceGroup
+output webAppRegion string = webApp.location

@@ -8,11 +8,11 @@ on:
 env:
   demoSubscriptionId: '197f4130-ef26-4439-a354-eb5a2a2d7f85'
   demoLocation: 'eastus'
-  demoDeploymentName: 'dashboardDemo'
+  demoDeploymentName: 'grafanaDemo'
 
 jobs:
   Test:
-    name: Test Infrastructure (Bicep)
+    name: Test Bicep for Errors
     runs-on: windows-latest
     steps:
     - name: 'Checkout Working Branch'
@@ -33,7 +33,7 @@ jobs:
         azPSVersion: "latest"
 
   Deploy:
-    name: Deploy Infrastructure (Bicep)
+    name: Test Deploy Infrastructure 
     runs-on: windows-latest
     needs: [Test]
     steps:
@@ -57,5 +57,6 @@ jobs:
             -location '${{ env.demoLocation }}' `
             -TemplateFile ./infra/main.bicep `
             -TemplateParameterFile ./infra/main.params.json `
-            -deployedBy "${{ github.actor }}" 
+            -deployedBy "${{ github.actor }}" `
+            -WhatIf
         azPSVersion: "latest"

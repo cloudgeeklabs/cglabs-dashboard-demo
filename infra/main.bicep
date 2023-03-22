@@ -87,7 +87,7 @@ module logsSA 'modules/storageAccount.bicep' = {
     resourceTags: union(tags, {
       Notes: 'Used to store Billing and AAD Logs for Dashboard Usage!'
     })
-    applicationName: '${prefix}logstorage'
+    applicationName: toLower('${prefix}logstorage')
     region: primaryRegion
   }
 }
@@ -99,7 +99,7 @@ module logAnalytics 'modules/logAalytics.bicep' = {
   params: {
     resourceTags: tags
     primaryRegion: primaryRegion
-    workspaceName: '${prefix}-${demoAppName}-law'
+    workspaceName: toLower('${prefix}-${demoAppName}-law')
   }
 }
 
@@ -108,7 +108,7 @@ module grafanaDashboard 'modules/grafana.bicep' = {
   name: '${prefix}-${demoAppName}-grafana'
   scope: resourceGroup(createResGroup[0].name)
   params: {
-    applicationName: '${prefix}-grafana' //Workspace names must be between 2 to 23 characters long
+    applicationName: toLower('${prefix}-grafana') //Workspace names must be between 2 to 23 characters long
     resourceTags: tags
     region: primaryRegion
     logAnalyticsWorkspaceId: logAnalytics.outputs.logAnalyticsWorkspaceId
@@ -131,7 +131,7 @@ module cosmosdb 'modules/cosmos.bicep' = {
   scope: resourceGroup(createResGroup[0].name)
   params: {
     resourceTags: tags
-    applicationName: '${prefix}-${demoAppName}-cosmodb'
+    applicationName: toLower('${prefix}-${demoAppName}-cosmodb')
     secondaryRegion: secondaryRegion
     logAnalyticsWorkspaceId: logAnalytics.outputs.logAnalyticsWorkspaceId
     primaryRegion: primaryRegion
@@ -148,7 +148,7 @@ module webApp 'modules/webApp.bicep' = [for app in items(appResources): {
       'WebApp Name': app.value.name
       Region: app.value.region
     })
-    applicationName: app.value.name
+    applicationName: toLower(app.value.name)
     demoAppName: demoAppName
     dnsObject: dnsObject
     logAnalyticsWorkspaceId: logAnalytics.outputs.logAnalyticsWorkspaceId
@@ -166,7 +166,7 @@ module trafficManager 'modules/trafficManager.bicep' = {
   scope: resourceGroup(createResGroup[0].name)
   params: {
     resourceTags: tags
-    applicationName: '${prefix}-${demoAppName}-tm'
+    applicationName: toLower('${prefix}-${demoAppName}-tm')
     cnameRecordValue: trafficManagerName
     logAnalyticsWorkspaceId: logAnalytics.outputs.logAnalyticsWorkspaceId
     primaryRegionFqdn: webApp[0].outputs.webAppFQDN
@@ -176,29 +176,17 @@ module trafficManager 'modules/trafficManager.bicep' = {
 
 // Output Primary Information
 output dateTime string = dateTime
-output subscriptionId string = subscription().subscriptionId
-output demoAppSharedResGroupName string = createResGroup[0].name
-output demoAppPrimaryResGroupName string = createResGroup[1].name
-output demoAppSecondaryResGroupName string = createResGroup[2].name
 output demoAppName string = demoAppName
-output primaryRegion string = primaryRegion
-output secondaryRegion string = secondaryRegion
 output domainFQDN string = domainFQDN
-
-// Output Storage Account Info
-output logsStorageAccountName string = logsSA.outputs.logStorageAccountName
-output logStorageAccountBlobEndpoint string = logsSA.outputs.logStorageAccountBlobEndpoint
-
-// Output Log Analytic Workspace Info
-output logAnalyticsWorkspaceId string = logAnalytics.outputs.logAnalyticsWorkspaceId
-output logAnalyticsWorkspaceName string = logAnalytics.outputs.logAnalyticsWorkspaceName
-
-// Output Grafana Dashboard Info
-output grafanaSMI string = grafanaDashboard.outputs.grafanaSMI
 output grafanaOutboundIP01 string = grafanaDashboard.outputs.grafanaOutboundIP01
 output grafanaOutboundIP02 string = grafanaDashboard.outputs.grafanaOutboundIP02
 output grafanaEndpoint string = grafanaDashboard.outputs.grafanaEndpoint
-
-// output AppService Info
-output primaryWebAppName string = webApp[0].outputs.webAppName
-output secondaryWebAppName string = webApp[1].outputs.webAppName
+output WebAppInfo array = [for i in range(0, length(appResources)): {
+  webAppName: webApp[i].outputs.webAppName
+  webAppFQDN: webApp[i].outputs.webAppFQDN
+  appInsightsName: webApp[i].outputs.appInsightsName
+  managedCertThumbprint: webApp[i].outputs.managedCertThumbprint
+  managedCertName: webApp[i].outputs.managedCertName
+  webAppResGroup: webApp[i].outputs.webAppResGroup
+  webAppRegion: webApp[i].outputs.webAppRegion
+}]
