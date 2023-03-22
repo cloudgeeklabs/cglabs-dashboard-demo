@@ -11,18 +11,12 @@ env:
   demoDeploymentName: 'grafanaDemo'
 
 jobs:
-  Test:
+  TestBicep:
     name: Test Bicep for Errors
     runs-on: windows-latest
     steps:
     - name: 'Checkout Working Branch'
       uses: actions/checkout@v1
-      
-    - name: 'Login into Azure'
-      uses: azure/login@v1
-      with:
-        creds: ${{ secrets.AZURE_CREDS }}
-        enable-AzPsSession: true
 
     - name: 'Run Test Build of Bicep Files'
       uses: azure/powershell@v1
@@ -32,10 +26,10 @@ jobs:
           az bicep build --file ./infra/main.bicep --outfile ./infra/build.json
         azPSVersion: "latest"
 
-  Deploy:
+  TestDeploy:
     name: Test Deploy Infrastructure 
     runs-on: windows-latest
-    needs: [Test]
+    needs: [TestBicep]
     steps:
     - name: 'Checkout Working Branch'
       uses: actions/checkout@v1
@@ -46,7 +40,7 @@ jobs:
         creds: ${{ secrets.AZURE_CREDS }}
         enable-AzPsSession: true
 
-    - name: 'Deploy Demo Environment'
+    - name: 'Test ARM Template via WhatIf'
       uses: azure/powershell@v1
       with:
         inlineScript: |
@@ -59,4 +53,28 @@ jobs:
             -TemplateParameterFile ./infra/main.params.json `
             -deployedBy "${{ github.actor }}" `
             -WhatIf
+        azPSVersion: "latest"
+
+  RunScript:
+    name: Test Deploy Infrastructure 
+    runs-on: windows-latest
+    needs: [TestDeploy]
+    steps:
+    - name: 'Checkout Working Branch'
+      uses: actions/checkout@v1
+
+    - name: 'Login into Azure'
+      uses: azure/login@v1
+      with:
+        creds: ${{ secrets.AZURE_CREDS }}
+        enable-AzPsSession: true
+
+    - name: 'Execute Deploy.ps1 Script'
+      uses: azure/powershell@v1
+      with:
+        inlineScript: |
+          $WarningPreference = 'SilentlyContinue'
+          [void](Set-AzContext -SubscriptionId ${{ env.demoSubscriptionId }})
+          Set-Location .\code\scripts\
+           (./deploy.ps1 -Subscription 197f4130-ef26-4439-a354-eb5a2a2d7f85 -DeploymentName 'grafanaDemo' -Region 'eastus' -deployedBy '${{ github.actor }}' -InformationAction Continue) 
         azPSVersion: "latest"

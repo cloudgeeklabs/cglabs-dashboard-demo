@@ -4,7 +4,9 @@ param(
     [Parameter(Mandatory=$true,ValueFromPipeline=$false)]
     [String] $DeploymentName,
     [Parameter(Mandatory=$true,ValueFromPipeline=$false)]
-    [String] $Region
+    [String] $Region,
+    [Parameter(Mandatory=$false,ValueFromPipeline=$false)]
+    [String] $deployedBy
 )
 
 ## Functions
@@ -107,7 +109,9 @@ Function Deploy-Infrastructure {
       [Parameter(Mandatory=$true,ValueFromPipeline=$false)]
       [String] $DeploymentName,
       [Parameter(Mandatory=$true,ValueFromPipeline=$false)]
-      [String] $Region
+      [String] $Region,
+      [Parameter(Mandatory=$false,ValueFromPipeline=$false)]
+      [String] $deployedBy
     )
   
     ## Set Warning Message Preference
@@ -162,7 +166,7 @@ Function Deploy-Infrastructure {
         -location $Region `
         -TemplateFile $bicepFilePath `
         -TemplateParameterFile $paramsFilePath `
-        -deployedBy $(whoami)
+        -deployedBy $deployedBy
       )
       if ($deployment) {
         return ($deployment)
@@ -200,7 +204,7 @@ Try {
     }
 
     ## Deploy Infrastructure and write-output to Screen
-    $deployInfraOutput = (Deploy-Infrastructure -Subscription $SubscriptionId -DeploymentName $DeploymentName -Region $Region -InformationAction Continue)
+    $deployInfraOutput = (Deploy-Infrastructure -Subscription $SubscriptionId -DeploymentName $DeploymentName -Region $Region -deployedBy $deployedBy -InformationAction Continue)
     if ($deployInfraOutput.ProvisioningState -eq 'Succeeded') {
         Write-Verbose ($deployInfraOutput | ConvertTo-Json -Depth 10)
         Write-Information ('Infrastructure Deployment Completed: ' + $deployInfraOutput.Timestamp)
