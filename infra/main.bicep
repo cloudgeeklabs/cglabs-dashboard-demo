@@ -92,6 +92,18 @@ module logsSA 'modules/storageAccount.bicep' = {
   }
 }
 
+// Deploy Azure KeyVault for Certificate and Secrets
+module keyvault 'modules/keyVault.bicep' = {
+  name: '${prefix}-${demoAppName}-keyvault'
+  scope: resourceGroup(createResGroup[0].name)
+  params: {
+    applicationName: '${prefix}-${demoAppName}-keyvault'
+    region: primaryRegion
+    logAnalyticsWorkspaceId: logAnalytics.outputs.logAnalyticsWorkspaceId
+    resourceTags: tags
+  }
+}
+
 // Deploy Log Analytics Workspace for DemoApp Diagnostic Logs - this will feed Dashboard!
 module logAnalytics 'modules/logAalytics.bicep' = {
   name: '${prefix}-${demoAppName}-law'
@@ -178,9 +190,10 @@ module trafficManager 'modules/trafficManager.bicep' = {
 output dateTime string = dateTime
 output demoAppName string = demoAppName
 output domainFQDN string = domainFQDN
-output grafanaOutboundIP01 string = grafanaDashboard.outputs.grafanaOutboundIP01
-output grafanaOutboundIP02 string = grafanaDashboard.outputs.grafanaOutboundIP02
 output grafanaEndpoint string = grafanaDashboard.outputs.grafanaEndpoint
+output keyvaultName string = keyvault.outputs.keyvaultName
+output keyvaultId string = keyvault.outputs.keyvaultId
+
 output WebAppInfo array = [for i in range(0, length(appResources)): {
   webAppName: webApp[i].outputs.webAppName
   webAppFQDN: webApp[i].outputs.webAppFQDN

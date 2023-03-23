@@ -1,4 +1,4 @@
-name: Build DemoApp Infrastructure Artifact
+name: Build DemoApp Infrastructure
 on:
   push:
     branches: [working]
