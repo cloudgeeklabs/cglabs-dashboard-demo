@@ -23,9 +23,9 @@ resource keyvault 'Microsoft.KeyVault/vaults@2022-11-01' = {
   enabledForDiskEncryption: true
   enabledForTemplateDeployment: true
   enabledForDeployment: true
-  enablePurgeProtection: false
   enableRbacAuthorization: true
-  enableSoftDelete: false
+  enableSoftDelete: true
+  enablePurgeProtection: true
   }
 }
 
