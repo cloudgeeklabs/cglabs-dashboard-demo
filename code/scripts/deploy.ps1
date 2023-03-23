@@ -198,7 +198,7 @@ Try {
     }
 
     ## Deploy Infrastructure and write-output to Screen
-    $deployInfraOutput = (Deploy-Infrastructure -Subscription $params.parameters.subscriptionId.value -DeploymentName $params.parameters.demoDeploymentName.value -Region $params.parameters.primaryRegion.value -deployedBy $deployedBy -InformationAction Continue)
+    $deployInfraOutput = (Deploy-Infrastructure -DeploymentName $params.parameters.demoDeploymentName.value -Region $params.parameters.primaryRegion.value -deployedBy $deployedBy -InformationAction Continue)
     if ($deployInfraOutput.ProvisioningState -eq 'Succeeded') {
         Write-Verbose ($deployInfraOutput | ConvertTo-Json -Depth 10)
         Write-Information ('Infrastructure Deployment Completed: ' + $deployInfraOutput.Timestamp)
