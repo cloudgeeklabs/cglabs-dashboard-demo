@@ -1,10 +1,4 @@
 param(
-    [Parameter(Mandatory=$true,ValueFromPipeline=$true)]
-    [String] $SubscriptionId,
-    [Parameter(Mandatory=$true,ValueFromPipeline=$false)]
-    [String] $DeploymentName,
-    [Parameter(Mandatory=$true,ValueFromPipeline=$false)]
-    [String] $Region,
     [Parameter(Mandatory=$false,ValueFromPipeline=$false)]
     [String] $deployedBy
 )
@@ -104,8 +98,6 @@ function Push-FileToWebApp {
 
 Function Deploy-Infrastructure {
     param(
-      [Parameter(Mandatory=$true,ValueFromPipeline=$true)]
-      [String] $SubscriptionId,
       [Parameter(Mandatory=$true,ValueFromPipeline=$false)]
       [String] $DeploymentName,
       [Parameter(Mandatory=$true,ValueFromPipeline=$false)]
@@ -185,26 +177,28 @@ Function Deploy-Infrastructure {
 <# __MAIN__ #>
 Try {
     
+    $params = (@(Get-Content ../../infra/main.params.json)|convertFrom-Json)
+
     ## Create Artifact Path
     $artifactFolderPath = New-Item -ItemType Directory './publishArtifact' -Force
     $pathToArtifact = ($artifactFolderPath.name + '/artifact.zip')
 
     ## Validate Existing AzContext and Subscription
     if (!(Get-AzContext)){
-        [void](Login-AzAccount -SubscriptionId $SubscriptionId)
-        Write-Information ('Not Logged In... to Azure and Setting SubscriptionId: ' + $SubscriptionId)
+        [void](Login-AzAccount -SubscriptionId $params.parameters.subscriptionId.value)
+        Write-Information ('Not Logged In... to Azure and Setting SubscriptionId: ' + $params.parameters.subscriptionId.value)
         Write-Information ('')
-    } elseif ($(Get-AzContext).Subscription.id -ne $SubscriptionId) {
-        [void](Set-AzContext -SubscriptionId $SubscriptionId)
-        Write-Information  ('Logged In with UserId: ' + (Get-AzContext).Account + ' | Setting SubscriptionId: ' + $SubscriptionId)
+    } elseif ($(Get-AzContext).Subscription.id -ne $params.parameters.subscriptionId.value) {
+        [void](Set-AzContext -SubscriptionId $params.parameters.subscriptionId.value)
+        Write-Information  ('Logged In with UserId: ' + (Get-AzContext).Account + ' | Setting SubscriptionId: ' + $params.parameters.subscriptionId.value)
         Write-Information ('')
     } else {
-        Write-Information  ('Logged In with UserId: ' + (Get-AzContext).Account + ' SubsciptionId Confirmed: ' + $SubscriptionId)
+        Write-Information  ('Logged In with UserId: ' + (Get-AzContext).Account + ' SubsciptionId Confirmed: ' + $params.parameters.subscriptionId.value)
         Write-Information ('')
     }
 
     ## Deploy Infrastructure and write-output to Screen
-    $deployInfraOutput = (Deploy-Infrastructure -Subscription $SubscriptionId -DeploymentName $DeploymentName -Region $Region -deployedBy $deployedBy -InformationAction Continue)
+    $deployInfraOutput = (Deploy-Infrastructure -Subscription $params.parameters.subscriptionId.value -DeploymentName $params.parameters.deploymentName.value -Region $params.parameters.primaryRegion.value -deployedBy $deployedBy -InformationAction Continue)
     if ($deployInfraOutput.ProvisioningState -eq 'Succeeded') {
         Write-Verbose ($deployInfraOutput | ConvertTo-Json -Depth 10)
         Write-Information ('Infrastructure Deployment Completed: ' + $deployInfraOutput.Timestamp)
@@ -227,7 +221,7 @@ Try {
     $webAppObjects = ($deployInfraOutput.Outputs.webAppInfo.value)
     foreach ($webAppObj in $webAppObjects) {
         if($webAppObj) {
-            $uploadReturn = (Push-FileToWebApp -webAppObj $webAppObj -SubscriptionId $SubscriptionId -pathToArtifact $pathToArtifact -InformationAction Continue)
+            $uploadReturn = (Push-FileToWebApp -webAppObj $webAppObj -SubscriptionId $params.parameters.subscriptionId.value -pathToArtifact $pathToArtifact -InformationAction Continue)
         } else { Throw ('WebAppObj is NULL')}
     }
 
