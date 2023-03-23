@@ -27,6 +27,11 @@ param dateTime string = utcNow('u')
 @description('Default resourceTags defined for all resources in the Demo!')
 param resourceTags object
 
+@description('Name of Deployment Associated with this Build')
+param deploymentName string
+
+@description('SubscriptionId used for our Demo Environment!')
+param subscriptionId string
 
 // Setup main.bicep Variables Section
 var domainFQDN = '${demoAppName}.${dnsObject.name}'
@@ -76,7 +81,10 @@ var resGroupObject = {
 resource createResGroup 'Microsoft.Resources/resourceGroups@2021-01-01' = [for rg in items(resGroupObject): {
   name: rg.value.name
   location: rg.value.location
-  tags: rg.value.tags
+  tags: union(rg.value.tags,{
+    deploymentName: deploymentName // Name of Deployment Associated with this Build
+    subscriptionId: subscriptionId // Subscription Associated With this Build
+  })
 }]
 
 // Deploy Logs Storage Account - will use this to collect Billing and CustomLogs for Dashboard
