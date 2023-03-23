@@ -76,5 +76,5 @@ jobs:
           $WarningPreference = 'SilentlyContinue'
           [void](Set-AzContext -SubscriptionId ${{ env.demoSubscriptionId }})
           Set-Location .\code\scripts\
-           (./deploy.ps1 -Subscription 197f4130-ef26-4439-a354-eb5a2a2d7f85 -DeploymentName 'grafanaDemo' -Region 'eastus' -deployedBy '${{ github.actor }}' -InformationAction Continue) 
+           (./deploy.ps1 -deployedBy '${{ github.actor }}' -InformationAction Continue) 
         azPSVersion: "latest"
