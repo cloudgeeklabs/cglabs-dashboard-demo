@@ -28,7 +28,7 @@ param dateTime string = utcNow('u')
 param resourceTags object
 
 @description('Name of Deployment Associated with this Build')
-param deploymentName string
+param demoDeploymentName string
 
 @description('SubscriptionId used for our Demo Environment!')
 param subscriptionId string
@@ -82,7 +82,7 @@ resource createResGroup 'Microsoft.Resources/resourceGroups@2021-01-01' = [for r
   name: rg.value.name
   location: rg.value.location
   tags: union(rg.value.tags,{
-    deploymentName: deploymentName // Name of Deployment Associated with this Build
+    deploymentName: demoDeploymentName // Name of Deployment Associated with this Build
     subscriptionId: subscriptionId // Subscription Associated With this Build
   })
 }]

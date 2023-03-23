@@ -99,7 +99,7 @@ function Push-FileToWebApp {
 Function Deploy-Infrastructure {
     param(
       [Parameter(Mandatory=$true,ValueFromPipeline=$false)]
-      [String] $DeploymentName,
+      [String] $demoDeploymentName,
       [Parameter(Mandatory=$true,ValueFromPipeline=$false)]
       [String] $Region,
       [Parameter(Mandatory=$false,ValueFromPipeline=$false)]
@@ -149,12 +149,12 @@ Function Deploy-Infrastructure {
  `-.._____..-'
 
 "@
-      Write-Information ('Begin Deployment: ' + $DeploymentName)
+      Write-Information ('Begin Deployment: ' + $demoDeploymentName)
       Write-Information ('Time Started: ' + $(Get-Date) +' | [This process can take a bit to complete. Coffee Time!] |')
       Write-Information ($coffeeTimeAscii)
       ## Deploy Infrastructure and Return Object
       $deployment = (New-AzSubscriptionDeployment `
-        -Name $DeploymentName `
+        -Name $demoDeploymentName `
         -location $Region `
         -TemplateFile $bicepFilePath `
         -TemplateParameterFile $paramsFilePath `
@@ -198,7 +198,7 @@ Try {
     }
 
     ## Deploy Infrastructure and write-output to Screen
-    $deployInfraOutput = (Deploy-Infrastructure -Subscription $params.parameters.subscriptionId.value -DeploymentName $params.parameters.deploymentName.value -Region $params.parameters.primaryRegion.value -deployedBy $deployedBy -InformationAction Continue)
+    $deployInfraOutput = (Deploy-Infrastructure -Subscription $params.parameters.subscriptionId.value -DeploymentName $params.parameters.demoDeploymentName.value -Region $params.parameters.primaryRegion.value -deployedBy $deployedBy -InformationAction Continue)
     if ($deployInfraOutput.ProvisioningState -eq 'Succeeded') {
         Write-Verbose ($deployInfraOutput | ConvertTo-Json -Depth 10)
         Write-Information ('Infrastructure Deployment Completed: ' + $deployInfraOutput.Timestamp)
