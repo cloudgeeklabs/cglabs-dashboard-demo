@@ -94,10 +94,10 @@ module logsSA 'modules/storageAccount.bicep' = {
 
 // Deploy Azure KeyVault for Certificate and Secrets
 module keyvault 'modules/keyVault.bicep' = {
-  name: '${prefix}-${demoAppName}-keyvault'
+  name: '${prefix}-${demoAppName}-kv'
   scope: resourceGroup(createResGroup[0].name)
   params: {
-    applicationName: '${prefix}-${demoAppName}-keyvault'
+    applicationName: toLower('${prefix}-${demoAppName}-kv')
     region: primaryRegion
     logAnalyticsWorkspaceId: logAnalytics.outputs.logAnalyticsWorkspaceId
     resourceTags: tags

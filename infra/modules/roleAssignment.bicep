@@ -28,9 +28,16 @@ var roleAssignmentObject = {
     principalType: 'user'
     enabled: true
   }
+  role4: {
+    name: guid('keyVaultAdministrator',subscription().id) // has to be globally unique - thus using resourceGroup().id as part of GUID
+    roleDefinitionId: '00482a5a-887f-4fb3-b363-3b7fe8e74483'
+    principalId: grafanaAADId
+    principalType: 'user'
+    enabled: true
+  }
 }
 
-// Configure RBAC on ResourceGroup to allow Frafana to Access all Data
+// Configure RBAC on ResourceGroup to allow Grafana to Access all Data
 resource roleAssignment 'Microsoft.Authorization/roleAssignments@2022-04-01' = [for role in items(roleAssignmentObject): {
   name: role.value.name
   properties: {
