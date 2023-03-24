@@ -259,8 +259,12 @@ Try {
     $url = ('https://' + $paramsFiles.Parameters.demoAppName.value + '.' + $paramsFiles.Parameters.dnsObject.value.name)
 
     ### Update WebTest XML doc before running Bicep
-    [XML]$webTestSrc = (Get-Content ..\webTest\webTest.xml).Replace('Url="{{URL}}"',('Url="' + $url + '"'))
-    $webTestSrc.Save('.\webTest\webTest.xml')
+    if (Test-Path -Path '..\webTest\webTest.xml') {
+        [XML]$webTestSrc = (Get-Content '..\webTest\webTest.xml').Replace('Url="{{URL}}"',('Url="' + $url + '"'))
+        $webTestSrc.Save('..\webTest\webTest.xml')
+    } else {
+        Throw ('Main.WebTestXML Failed | Unable to locate webTest.xml!')
+    }
 
     # Validate Existing AzContext and Subscription
     $userContext = (Get-AzContext)
