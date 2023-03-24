@@ -66,7 +66,6 @@ function Enable-GrafanaAPIAccess {
         Throw $_.Exception
     }
 }
-
 function Set-GrafanaDashboard {
     param(
         [Parameter(Mandatory=$true,ValueFromPipeline=$false)]
@@ -113,9 +112,6 @@ function Set-GrafanaDashboard {
         throw $_.Exception
     }
 }
-
-
-
 function Set-GrafanaDashboards {
     param(
         [Parameter(Mandatory=$true,ValueFromPipeline=$false)]

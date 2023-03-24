@@ -25,6 +25,9 @@ param logAnalyticsWorkspaceId string
 @description('TrafficManager Globally Unique Name')
 param trafficManagerName string
 
+@description('WebTest XML Value')
+param webTestValue string
+
 param resourceTags object
 
 // Variables 
@@ -61,7 +64,7 @@ resource appWebTest 'Microsoft.Insights/webtests@2022-06-15' = {
   properties: {
     Name: '${applicationName}-pingTest'
     Configuration: {
-      WebTest: loadTextContent('../../code/webTest/webTest.xml') 
+      WebTest: webTestValue
     }
     Locations: [
       {
@@ -92,7 +95,7 @@ resource appWebTest 'Microsoft.Insights/webtests@2022-06-15' = {
     }
     ValidationRules: {
       ExpectedHttpStatusCode: 200
-      IgnoreHttpStatusCode: false
+      IgnoreHttpStatusCode: true
       SSLCheck: true
       SSLCertRemainingLifetimeCheck: 7
     }

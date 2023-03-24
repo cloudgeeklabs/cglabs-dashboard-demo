@@ -259,18 +259,30 @@ Try {
     $url = ('https://' + $paramsFiles.Parameters.demoAppName.value + '.' + $paramsFiles.Parameters.dnsObject.value.name)
 
     ### Update WebTest XML files before running Bicep
-    if ($webTestPrimaryPath = ((Resolve-Path ..\webTest\webTestPrimaryRegion.xml).path)) {
-        [XML]$webTestPrimarySrc = (Get-Content $webTestPrimaryPath).Replace('Url="{{URL}}"',('Url="' + $url + '"'))
-        $webTestPrimarySrc.Save($webTestPrimaryPath)
+    if (!(Test-Path ../webTest/webTestPrimaryRegion.xml)) {
+        ## Configure Primary webTest
+        [XML]$webTestPrimarySrc = (Get-Content -Path(Resolve-Path ../webTest/webTestTemplate.xml).path)
+        $webTestPrimarySrc.WebTest.Name = ($paramsFiles.Parameters.demoAppName.value + '-' + $paramsFiles.Parameters.primaryRegion.value)
+        $webTestPrimarySrc.WebTest.Id = (New-Guid)
+        $webTestPrimarySrc.WebTest.Items.Request.Guid = (New-Guid)
+        $webTestPrimarySrc.WebTest.Items.Request.Url = ($url)
+        $webTestPrimarySrc.Save((New-Item '../webTest/webTestPrimaryRegion.xml'))
+        Write-Information ('Main.WebTestXMLCreatePrimary Successful! webTestPrimaryRegion.xml Created.')
     } else {
-        Throw ('Main.WebTestXML Failed | Unable to locate webTestPrimaryRegion.xml!')
-    }
-    if ($webTestSecondaryPath = ((Resolve-Path ..\webTest\webTestSecondaryRegion.xml).path)) {
-        [XML]$webTestSecondarySrc = (Get-Content $webTestSecondaryPath).Replace('Url="{{URL}}"',('Url="' + $url + '"'))
-        $webTestSecondarySrc.Save($webTestSecondaryPath)
+        Write-Information ('Main.WebTestXMLCreatePrimary Successful! webTestPrimaryRegion.xml already existed.')
+    } 
+    if (!(Test-Path ../webTest/webTestSecondaryRegion.xml).path) {
+        ## Configure Secondary webTest
+        [XML]$webTestSecondarySrc = (Get-Content -Path (Resolve-Path ../webTest/webTestTemplate.xml).path)
+        $webTestSecondarySrc.WebTest.Name = ($paramsFiles.Parameters.demoAppName.value + '-' + $paramsFiles.Parameters.primaryRegion.value)
+        $webTestSecondarySrc.WebTest.Id = (New-Guid)
+        $webTestSecondarySrc.WebTest.Items.Request.Guid = (New-Guid)
+        $webTestSecondarySrc.WebTest.Items.Request.Url = ($url)
+        $webTestSecondarySrc.Save((New-Item '../webTest/webTestSecondaryRegion.xml'))
+        Write-Information ('Main.WebTestXMLCreateSecondary Successful! webTestSecondaryRegion.xml Created.')
     } else {
-        Throw ('Main.WebTestXML Failed | Unable to locate webTestSecondaryRegion.xml!')
-    }
+        Write-Information ('Main.WebTestXMLCreateSecondary Successful! webTestSecondaryRegion.xml already existed.')
+    } 
 
     # Validate Existing AzContext and Subscription
     $userContext = (Get-AzContext)

@@ -46,11 +46,13 @@ var appResources = {
     name: '${prefix}-${primaryRegion}-demoapp'
     region: primaryRegion
     ResGroup: createResGroup[1].name
+    webTestValue: loadTextContent('../code/webTest/webTestPrimaryRegion.xml') 
   }
   app2: {
     name: '${prefix}-${secondaryRegion}-demoapp'
     region: secondaryRegion
     ResGroup: createResGroup[2].name
+    webTestValue: loadTextContent('../code/webTest/webTestSecondaryRegion.xml') 
   }
 }
 var resGroupObject = {
@@ -177,6 +179,7 @@ module webApp 'modules/webApp.bicep' = [for app in items(appResources): {
     cosmosdbEndpoint: cosmosdb.outputs.cosmosdbEndpoint
     cosmosdbId: cosmosdb.outputs.cosmosdbId
     trafficManagerName: trafficManagerName
+    webTestValue: app.value.webTestValue
   }
 }]
 
