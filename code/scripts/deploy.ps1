@@ -260,7 +260,7 @@ Try {
 
     ### Update WebTest XML doc before running Bicep
     [XML]$webTestSrc = (Get-Content ..\webTest\webTest.xml).Replace('Url="{{URL}}"',('Url="' + $url + '"'))
-    $webTestSrc.Save('./infra/modules/webTest.xml')
+    $webTestSrc.Save('.\webTest\webTest.xml')
 
     # Validate Existing AzContext and Subscription
     $userContext = (Get-AzContext)

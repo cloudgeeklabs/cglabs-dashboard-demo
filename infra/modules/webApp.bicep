@@ -61,7 +61,7 @@ resource appWebTest 'Microsoft.Insights/webtests@2022-06-15' = {
   properties: {
     Name: '${applicationName}-pingTest'
     Configuration: {
-      WebTest: loadTextContent('webTest.xml') 
+      WebTest: loadTextContent('../../code/webTest/webTest.xml') 
     }
     Locations: [
       {
