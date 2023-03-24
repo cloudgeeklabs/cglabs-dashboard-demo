@@ -29,7 +29,7 @@ param resourceTags object
 
 // Variables 
 var cosmosdbKey = listKeys(cosmosdbId, cosmosdbApiVersion).primaryMasterKey
-var domainFQDN = '${demoAppName}.${dnsObject.name}'
+var domainFQDN = 'https://${demoAppName}.${dnsObject.name}'
 
 
 // Configure Application Insights for WebApp - Required for Some Dashboard Outputs!
@@ -79,7 +79,7 @@ resource appWebTest 'Microsoft.Insights/webtests@2022-06-15' = {
     ]
     Kind: 'standard'
     Enabled: true
-    Description: 'Run a Ping Test against FQDN.'
+    Description: 'Run a GET (curl) against FQDN.'
     Frequency: 300
     RetryEnabled: true
     Timeout: 120
@@ -92,7 +92,7 @@ resource appWebTest 'Microsoft.Insights/webtests@2022-06-15' = {
     }
     ValidationRules: {
       ExpectedHttpStatusCode: 200
-      IgnoreHttpStatusCode: true
+      IgnoreHttpStatusCode: false
       SSLCheck: true
       SSLCertRemainingLifetimeCheck: 7
     }
