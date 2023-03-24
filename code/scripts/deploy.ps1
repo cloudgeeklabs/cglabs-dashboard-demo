@@ -270,20 +270,20 @@ Try {
     # Validate Existing AzContext and Subscription
     $userContext = (Get-AzContext)
     if (!($userContext)){
-        $userContext = (Set-AzContext -SubscriptionId $params.parameters.subscriptionId.value)
-        Write-Information ('Not Logged In... to Azure and Setting SubscriptionId: ' + $params.parameters.subscriptionId.value)
+        $userContext = (Set-AzContext -SubscriptionId $paramsFiles.parameters.subscriptionId.value)
+        Write-Information ('Not Logged In... to Azure and Setting SubscriptionId: ' + $paramsFiles.parameters.subscriptionId.value)
         Write-Information ('')
-    } elseif ($($userContext).Subscription.id -ne $params.parameters.subscriptionId.value) {
-        $userContext = (Set-AzContext -SubscriptionId $params.parameters.subscriptionId.value)
-        Write-Information  ('Logged In with UserId: ' + (Get-AzContext).Account + ' | Setting SubscriptionId: ' + $params.parameters.subscriptionId.value)
+    } elseif ($($userContext).Subscription.id -ne $paramsFiles.parameters.subscriptionId.value) {
+        $userContext = (Set-AzContext -SubscriptionId $paramsFiles.parameters.subscriptionId.value)
+        Write-Information  ('Logged In with UserId: ' + (Get-AzContext).Account + ' | Setting SubscriptionId: ' + $paramsFiles.parameters.subscriptionId.value)
         Write-Information ('')
     } else {
-        Write-Information  ('Logged In with UserId: ' + (Get-AzContext).Account + ' SubsciptionId Confirmed: ' + $params.parameters.subscriptionId.value)
+        Write-Information  ('Logged In with UserId: ' + (Get-AzContext).Account + ' SubsciptionId Confirmed: ' + $paramsFiles.parameters.subscriptionId.value)
         Write-Information ('')
     }
 
     ## Deploy Infrastructure and write-output to Screen
-    $deployInfraOutput = (Deploy-Infrastructure -demoDeploymentName $params.parameters.demoDeploymentName.value -Region $params.parameters.primaryRegion.value -deployedBy $deployedBy -InformationAction Continue)
+    $deployInfraOutput = (Deploy-Infrastructure -demoDeploymentName $paramsFiles.parameters.demoDeploymentName.value -Region $paramsFiles.parameters.primaryRegion.value -deployedBy $deployedBy -InformationAction Continue)
     if ($deployInfraOutput.ProvisioningState -eq 'Succeeded') {
         Write-Verbose ($deployInfraOutput | ConvertTo-Json -Depth 10)
         Write-Information ('Infrastructure Deployment Completed: ' + $deployInfraOutput.Timestamp)
@@ -320,7 +320,7 @@ Try {
     $webAppObjects = ($deployInfraOutput.Outputs.webAppInfo.value)
     foreach ($webAppObj in $webAppObjects) {
         if($webAppObj) {
-            $uploadReturn = (Push-FileToWebApp -webAppObj $webAppObj -SubscriptionId $params.parameters.subscriptionId.value -pathToArtifact $pathToArtifact -InformationAction Continue)
+            $uploadReturn = (Push-FileToWebApp -webAppObj $webAppObj -SubscriptionId $paramsFiles.parameters.subscriptionId.value -pathToArtifact $pathToArtifact -InformationAction Continue)
         } else { 
             Throw ('Main.UploadFiles Stage Failed!! | WebAppObj is NULL')
         }
