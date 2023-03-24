@@ -86,14 +86,15 @@ resource appWebTest 'Microsoft.Insights/webtests@2022-06-15' = {
     SyntheticMonitorId: '${applicationName}-webtest'
     Request: {
       FollowRedirects: true
-      HttpVerb: 'Get'
+      HttpVerb: 'GET'
       RequestUrl: domainFQDN
-      ParseDependentRequests: false
+      ParseDependentRequests: true
     }
     ValidationRules: {
       ExpectedHttpStatusCode: 200
       IgnoreHttpStatusCode: true
-      SSLCheck: false
+      SSLCheck: true
+      SSLCertRemainingLifetimeCheck: 7
     }
   }
 }
