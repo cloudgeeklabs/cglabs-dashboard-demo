@@ -25,11 +25,11 @@ jobs:
           az config set bicep.use_binary_from_path=False
           az bicep build --file ./infra/main.bicep --outfile ./infra/build.json
         azPSVersion: "latest"
-        
+
   RunScript:
     name: Deploy Demo Environment 
     runs-on: windows-latest
-    needs: [TestDeploy]
+    needs: [TestBicep]
     steps:
     - name: 'Checkout Working Branch'
       uses: actions/checkout@v1
