@@ -302,6 +302,8 @@ Try {
 
          ## Configure Grafana Dashboards via Grafana API
         #$setGrafanaDashboard = (Set-GrafanaDashboards -appKeyVaultObject $appKeyVaultObject -userContext $userContext -grafanaEndpoint $deployInfraOutput.Outputs.grafanaEndpoint.Value)
+    } else {
+        Write-Information ('Granfa API app registration already Existed: ' + ($paramsFiles.parameters.demoAppName.value + '-sp') + ' ...skipping' )
     }
     
 

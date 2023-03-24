@@ -29,7 +29,7 @@ param resourceTags object
 
 // Variables 
 var cosmosdbKey = listKeys(cosmosdbId, cosmosdbApiVersion).primaryMasterKey
-var domainFQDN = 'https://${demoAppName}.${dnsObject.name}'
+var domainFQDN = '${demoAppName}.${dnsObject.name}'
 
 
 // Configure Application Insights for WebApp - Required for Some Dashboard Outputs!
@@ -87,7 +87,7 @@ resource appWebTest 'Microsoft.Insights/webtests@2022-06-15' = {
     Request: {
       FollowRedirects: true
       HttpVerb: 'GET'
-      RequestUrl: domainFQDN
+      RequestUrl: 'https://${domainFQDN}'
       ParseDependentRequests: true
     }
     ValidationRules: {
