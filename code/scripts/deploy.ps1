@@ -258,13 +258,18 @@ Try {
     ### Create Url for demoApp
     $url = ('https://' + $paramsFiles.Parameters.demoAppName.value + '.' + $paramsFiles.Parameters.dnsObject.value.name)
 
-    ### Update WebTest XML doc before running Bicep
-   
-    if ($webTestPath = ((Resolve-Path ..\webTest\webTest.xml).path)) {
-        [XML]$webTestSrc = (Get-Content $webTestPath).Replace('Url="{{URL}}"',('Url="' + $url + '"'))
-        $webTestSrc.Save($webTestPath)
+    ### Update WebTest XML files before running Bicep
+    if ($webTestPrimaryPath = ((Resolve-Path ..\webTest\webTestPrimaryRegion.xml).path)) {
+        [XML]$webTestPrimarySrc = (Get-Content $webTestPrimaryPath).Replace('Url="{{URL}}"',('Url="' + $url + '"'))
+        $webTestPrimarySrc.Save($webTestPrimaryPath)
     } else {
-        Throw ('Main.WebTestXML Failed | Unable to locate webTest.xml!')
+        Throw ('Main.WebTestXML Failed | Unable to locate webTestPrimaryRegion.xml!')
+    }
+    if ($webTestSecondaryPath = ((Resolve-Path ..\webTest\webTestSecondaryRegion.xml).path)) {
+        [XML]$webTestSecondarySrc = (Get-Content $webTestSecondaryPath).Replace('Url="{{URL}}"',('Url="' + $url + '"'))
+        $webTestSecondarySrc.Save($webTestSecondaryPath)
+    } else {
+        Throw ('Main.WebTestXML Failed | Unable to locate webTestSecondaryRegion.xml!')
     }
 
     # Validate Existing AzContext and Subscription
@@ -305,8 +310,6 @@ Try {
     } else {
         Write-Information ('Granfa API app registration already Existed: ' + ($paramsFiles.parameters.demoAppName.value + '-sp') + ' ...skipping' )
     }
-    
-
 
     ## Perform Build Steps Here!!
     $build = (Build-DemoApp -pathToArtifact $pathToArtifact -InformationAction Continue)
