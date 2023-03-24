@@ -293,7 +293,7 @@ Try {
     
     ## Configure Grafana App Reg and put ClientId/Secret into Keyvault
     if (!(Get-AzADServicePrincipal -DisplayName ($paramsFiles.parameters.demoAppName.value + '-sp'))) {
-        $appKeyVaultObject = (Enable-GrafanaAPIAccess -keyvaultName $deployInfraOutput.Outputs.keyvaultName.value -userContext $userContext -paramFiles $paramsFiles)
+        $appKeyVaultObject = (Enable-GrafanaAPIAccess -keyvaultName $deployInfraOutput.Outputs.keyvaultName.value -userContext $userContext -paramsFiles $paramsFiles)
         if ($appKeyVaultObject.displayName -like ($paramsFiles.parameters.demoAppName.value + '-sp')) {
             Write-Information ('New Grafana App Reg Created and Assigned [Grafana Admin] Role: ' + $appKeyVaultObject.displayName)
         } else {
