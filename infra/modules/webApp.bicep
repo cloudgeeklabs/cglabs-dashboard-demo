@@ -61,7 +61,7 @@ resource appWebTest 'Microsoft.Insights/webtests@2022-06-15' = {
   properties: {
     Name: '${applicationName}-pingTest'
     Configuration: {
-      WebTest: '<WebTest Name="NAME" Id="GUID" Enabled="True" CssProjectStructure="" CssIteration="" Timeout="120" WorkItemIds="" xmlns="http://microsoft.com/schemas/VisualStudio/TeamTest/2010" Description="" CredentialUserName="" CredentialPassword="" PreAuthenticate="True" Proxy="default" StopOnError="False" RecordedResultFile="" ResultsLocale="" ><Items><Request Method="GET" Guid="GUID" Version="1.1" Url="URL" ThinkTime="0" Timeout="120" ParseDependentRequests="False" FollowRedirects="True" RecordResult="True" Cache="False" ResponseTimeGoal="0" Encoding="utf-8" ExpectedHttpStatusCode="200" ExpectedResponseUrl="" ReportingName="" IgnoreHttpStatusCode="False" /></Items></WebTest>'
+      WebTest: loadTextContent('webTest.xml') 
     }
     Locations: [
       {
@@ -71,7 +71,7 @@ resource appWebTest 'Microsoft.Insights/webtests@2022-06-15' = {
         Id:  'us-va-ash-azr'
       }
       {
-        Id:  'emea-gb-db3-azr'
+        Id:  'emea-gb-db3-azr' 
       }
       {
         Id:  'apac-sg-sin-azr'

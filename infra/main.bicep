@@ -196,12 +196,12 @@ module trafficManager 'modules/trafficManager.bicep' = {
 
 // Output Primary Information
 output dateTime string = dateTime
+output deployedBy string = deployedBy
 output demoAppName string = demoAppName
 output domainFQDN string = domainFQDN
 output grafanaEndpoint string = grafanaDashboard.outputs.grafanaEndpoint
 output keyvaultName string = keyvault.outputs.keyvaultName
 output keyvaultId string = keyvault.outputs.keyvaultId
-
 output WebAppInfo array = [for i in range(0, length(appResources)): {
   webAppName: webApp[i].outputs.webAppName
   webAppFQDN: webApp[i].outputs.webAppFQDN

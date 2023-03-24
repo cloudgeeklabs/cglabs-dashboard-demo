@@ -3,7 +3,7 @@
       {
         "datasource": {
           "type": "grafana-azure-monitor-datasource",
-          "uid": "BhPoMT-Vz"
+          "uid": ""
         },
         "fieldConfig": {
           "defaults": {

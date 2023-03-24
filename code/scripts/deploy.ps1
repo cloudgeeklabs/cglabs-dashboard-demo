@@ -37,10 +37,10 @@ function Build-DemoApp {
             Remove-Item $pathToArtifact -Force
             Compress-Archive -Path ($buildFolderPath.name + '/*') -DestinationPath $pathToArtifact
         }
-
-        return ($buildApp)
+        Write-Information ($buildApp)
+        return ('Completed!')
     } else {
-     Throw ('Build.BuildApp Stage Failed!')
+        Throw ('Build.BuildApp Stage Failed!')
     }
 
 
@@ -51,7 +51,6 @@ function Build-DemoApp {
     
     }
 }
-
 function Push-FileToWebApp {
     param(
         [Parameter(Mandatory=$true,ValueFromPipeline=$true)]
@@ -95,15 +94,14 @@ function Push-FileToWebApp {
     
     }
 }
-
-Function Deploy-Infrastructure {
+function Deploy-Infrastructure {
     param(
-      [Parameter(Mandatory=$true,ValueFromPipeline=$false)]
-      [String] $demoDeploymentName,
-      [Parameter(Mandatory=$true,ValueFromPipeline=$false)]
-      [String] $Region,
-      [Parameter(Mandatory=$false,ValueFromPipeline=$false)]
-      [String] $deployedBy
+        [Parameter(Mandatory=$true,ValueFromPipeline=$false)]
+        [String] $demoDeploymentName,
+        [Parameter(Mandatory=$true,ValueFromPipeline=$false)]
+        [String] $Region,
+        [Parameter(Mandatory=$false,ValueFromPipeline=$false)]
+        [String] $deployedBy
     )
   
     ## Set Warning Message Preference
@@ -173,23 +171,105 @@ Function Deploy-Infrastructure {
   
     }
 }
+function Enable-GrafanaAPIAccess {
+    param(
+        [Parameter(Mandatory=$true,ValueFromPipeline=$false)]
+        [String] $keyvaultName,
+        [Parameter(Mandatory=$true,ValueFromPipeline=$false)]
+        [Microsoft.Azure.Commands.Profile.Models.Core.PSAzureContext] $userContext,
+        [Parameter(Mandatory=$true,ValueFromPipeline=$false)]
+        [System.Array] $paramsFiles
+    )   
+
+    try {
+
+        Write-Host $paramsFiles
+        if ($paramsFiles) {
+            $appName = ($paramsFiles.parameters.demoAppName.value + '-sp')
+        } else {
+            Throw ('grafanaAPI.Deployment State Failed!! | Params Object not Loaded')
+        }
+        
+        ## Create new App Reg with Secret
+        if (!($grafanaApp = (Get-AzADServicePrincipal -DisplayName $appName))) {
+            $grafanaApp = (New-AzADServicePrincipal -DisplayName $appName)   
+        }
+
+        ## Add Role Assignment for Grafana API Access (Grafana Admin)
+        if ($grafanaApp) {
+            [void](New-AzRoleAssignment `
+                -ApplicationId ($grafanaApp.AppId) `
+                -RoleDefinitionName ('Grafana Admin') `
+                -PrincipalType 'ServicePrincipal' `
+                -Scope ('/subscriptions/' + ($userContext.Subscription.Id))
+            )
+        } else {
+            Throw ('grafanaAPI.Deployment State Failed!! | Unable to lcoate $grafanaApp')
+        }
+        
+        ## Create appObject to store in KeyVault.
+        if ($grafanaApp) {
+            $appKeyVaultObject = @{
+                clientId = ($grafanaApp.AppId)
+                clientSecret = ($grafanaApp.PasswordCredentials.SecretText)
+                subscriptionId = $userContext.Subscription.Id
+                tenantId = $userContext.Tenant.Id
+            }
+            $secretValueObj = (($appKeyVaultObject | ConvertTo-Json).ToString())
+        } else {
+            Throw ('grafanaAPI.Deployment State Failed!! | Unable to lcoate $grafanaApp')
+        }
+
+        ## Set Secret in Keyvault
+        if (Get-AzKeyVault -Name $keyvaultName){
+            $secretvalue = ConvertTo-SecureString $secretValueObj -AsPlainText -Force
+            [void](Set-AzKeyVaultSecret -VaultName $keyvaultName -Name ($appName) -SecretValue $secretvalue)
+        } else {
+            Throw ('grafanaAPI.Deployment State Failed!! | Unable to find Keyvault: ' + $keyvaultName)
+        }
+        
+        ## Return AppInfo
+        if ($appKeyVaultObject) {
+            return ($appKeyVaultObject)
+        } else {
+            Throw ('grafanaAPI.Deployment State Failed!! | Unable to locate $appKeyVaultObject for')
+        }
+        
+    } catch {
+        Throw $_.Exception
+    }
+}
+
 
 <# __MAIN__ #>
 Try {
     
-    $params = (@(Get-Content ../../infra/main.params.json)|convertFrom-Json)
+    ## Load Params File
+    if (Test-Path '../../infra/main.params.json') {
+        $paramsFiles = @((Get-Content ../../infra/main.params.json)|convertFrom-Json)
+    } else {
+        Throw ('Path to Params Not Found! Plese verify that you are in the ./code/scripts directory')
+    }
 
     ## Create Artifact Path
     $artifactFolderPath = New-Item -ItemType Directory './publishArtifact' -Force
     $pathToArtifact = ($artifactFolderPath.name + '/artifact.zip')
 
-    ## Validate Existing AzContext and Subscription
-    if (!(Get-AzContext)){
-        [void](Login-AzAccount -SubscriptionId $params.parameters.subscriptionId.value)
+    ### Create Url for demoApp
+    $url = ('https://' + $paramsFiles.Parameters.demoAppName.value + '.' + $paramsFiles.Parameters.dnsObject.value.name)
+
+    ### Update WebTest XML doc before running Bicep
+    [XML]$webTestSrc = (Get-Content ..\webTest\webTest.xml).Replace('Url="{{URL}}"',('Url="' + $url + '"'))
+    $webTestSrc.Save('./infra/modules/webTest.xml')
+
+    # Validate Existing AzContext and Subscription
+    $userContext = (Get-AzContext)
+    if (!($userContext)){
+        $userContext = (Set-AzContext -SubscriptionId $params.parameters.subscriptionId.value)
         Write-Information ('Not Logged In... to Azure and Setting SubscriptionId: ' + $params.parameters.subscriptionId.value)
         Write-Information ('')
-    } elseif ($(Get-AzContext).Subscription.id -ne $params.parameters.subscriptionId.value) {
-        [void](Set-AzContext -SubscriptionId $params.parameters.subscriptionId.value)
+    } elseif ($($userContext).Subscription.id -ne $params.parameters.subscriptionId.value) {
+        $userContext = (Set-AzContext -SubscriptionId $params.parameters.subscriptionId.value)
         Write-Information  ('Logged In with UserId: ' + (Get-AzContext).Account + ' | Setting SubscriptionId: ' + $params.parameters.subscriptionId.value)
         Write-Information ('')
     } else {
@@ -206,10 +286,24 @@ Try {
         throw ('Main.InfraDeployment Stage Failed!!')
     }
     
+    ## Configure Grafana App Reg and put ClientId/Secret into Keyvault
+    if (!(Get-AzADServicePrincipal -DisplayName ($paramsFiles.parameters.demoAppName.value + '-sp'))) {
+        $appKeyVaultObject = (Enable-GrafanaAPIAccess -keyvaultName $deployInfraOutput.Outputs.keyvaultName.value -userContext $userContext -paramFiles $paramsFiles)
+        if ($appKeyVaultObject.displayName -like ($paramsFiles.parameters.demoAppName.value + '-sp')) {
+            Write-Information ('New Grafana App Reg Created and Assigned [Grafana Admin] Role: ' + $appKeyVaultObject.displayName)
+        } else {
+            Throw ('Main.grafanaAPI Stage Failed!! | Unable to validate')
+        }  
+
+         ## Configure Grafana Dashboards via Grafana API
+        #$setGrafanaDashboard = (Set-GrafanaDashboards -appKeyVaultObject $appKeyVaultObject -userContext $userContext -grafanaEndpoint $deployInfraOutput.Outputs.grafanaEndpoint.Value)
+    }
+    
+
 
     ## Perform Build Steps Here!!
     $build = (Build-DemoApp -pathToArtifact $pathToArtifact -InformationAction Continue)
-    if ($build) {
+    if ($build = 'Completed!') {
         Write-Verbose ('Build Successful: ' + $build[2])
         Write-Information ('Build Stage Completed')
     } else {
@@ -222,12 +316,14 @@ Try {
     foreach ($webAppObj in $webAppObjects) {
         if($webAppObj) {
             $uploadReturn = (Push-FileToWebApp -webAppObj $webAppObj -SubscriptionId $params.parameters.subscriptionId.value -pathToArtifact $pathToArtifact -InformationAction Continue)
-        } else { Throw ('WebAppObj is NULL')}
+        } else { 
+            Throw ('Main.UploadFiles Stage Failed!! | WebAppObj is NULL')
+        }
     }
 
     if ($uploadReturn) {
         Write-Information ('')
-        return ('All Done! You can view the App at: https://' + $deployInfraOutput.outputs.domainFQDN.value + ' | Grafana Login: ' + $deployInfraOutput.outputs.grafanaEndpoint.value)
+        return ('All Done! You can view the App at: https://' + $url + ' | Grafana Login: ' + $deployInfraOutput.outputs.grafanaEndpoint.value)
     } else {
         Throw ('Main.UploadFiles Stage Failed!!')
     }
