@@ -25,36 +25,7 @@ jobs:
           az config set bicep.use_binary_from_path=False
           az bicep build --file ./infra/main.bicep --outfile ./infra/build.json
         azPSVersion: "latest"
-
-  TestDeploy:
-    name: Test Deploy Infrastructure 
-    runs-on: windows-latest
-    needs: [TestBicep]
-    steps:
-    - name: 'Checkout Working Branch'
-      uses: actions/checkout@v1
-
-    - name: 'Login into Azure'
-      uses: azure/login@v1
-      with:
-        creds: ${{ secrets.AZURE_CREDS }}
-        enable-AzPsSession: true
-
-    - name: 'Test ARM Template via WhatIf'
-      uses: azure/powershell@v1
-      with:
-        inlineScript: |
-          $WarningPreference = 'SilentlyContinue'
-          [void](Set-AzContext -SubscriptionId ${{ env.demoSubscriptionId }})
-          $deployment = New-AzSubscriptionDeployment `
-            -Name '${{ env.demoDeploymentName }}' `
-            -location '${{ env.demoLocation }}' `
-            -TemplateFile ./infra/main.bicep `
-            -TemplateParameterFile ./infra/main.params.json `
-            -deployedBy "${{ github.actor }}" `
-            -WhatIf
-        azPSVersion: "latest"
-
+        
   RunScript:
     name: Deploy Demo Environment 
     runs-on: windows-latest
