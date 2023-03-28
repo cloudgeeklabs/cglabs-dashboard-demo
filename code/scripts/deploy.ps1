@@ -309,11 +309,13 @@ Try {
     ## Create Artifact Path
     $artifactFolderPath = New-Item -ItemType Directory './publishArtifact' -Force
     $pathToArtifact = ($artifactFolderPath.name + '/artifact.zip')
+    Write-Information ('Current Working Directory: ' + $(Get-Location))
 
     ### Create Url for demoApp
     $url = ('https://' + $paramsFiles.Parameters.demoAppName.value + '.' + $paramsFiles.Parameters.dnsObject.value.name)
 
     ### Update WebTest XML files before running Bicep as there is a dependency on these files existing in the main.bicep
+    $PWD
     if (!(Test-Path ../webTest/webTestPrimaryRegion.xml)) {
         $primaryTestPath = (New-Item ../webTest/webTestPrimaryRegion.xml)
         ## Configure Primary webTest
