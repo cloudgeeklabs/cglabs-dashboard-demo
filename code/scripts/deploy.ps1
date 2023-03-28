@@ -315,7 +315,7 @@ Try {
 
     ### Update WebTest XML files before running Bicep as there is a dependency on these files existing in the main.bicep
     if (!(Test-Path ../webTest/webTestPrimaryRegion.xml)) {
-        $primaryTestPath = (New-Item '../webTest/webTestPrimaryRegion.xml')
+        $primaryTestPath = (New-Item ../webTest/webTestPrimaryRegion.xml)
         ## Configure Primary webTest
         [XML]$webTestPrimarySrc = (Get-Content -Path(Resolve-Path ../webTest/webTestTemplate.xml).path)
         $webTestPrimarySrc.WebTest.Name = ($paramsFiles.Parameters.demoAppName.value + '-' + $paramsFiles.Parameters.primaryRegion.value)
@@ -328,7 +328,7 @@ Try {
         Write-Information ('Main.WebTestXMLCreatePrimary Successful! webTestPrimaryRegion.xml already existed.')
     } 
     if (!(Test-Path ../webTest/webTestSecondaryRegion.xml)) {
-        $secondaryTestPath = (New-Item '../webTest/webTestSecondaryRegion.xml')
+        $secondaryTestPath = (New-Item ../webTest/webTestSecondaryRegion.xml)
         ## Configure Secondary webTest
         [XML]$webTestSecondarySrc = (Get-Content -Path (Resolve-Path ../webTest/webTestTemplate.xml).path)
         $webTestSecondarySrc.WebTest.Name = ($paramsFiles.Parameters.demoAppName.value + '-' + $paramsFiles.Parameters.primaryRegion.value)
