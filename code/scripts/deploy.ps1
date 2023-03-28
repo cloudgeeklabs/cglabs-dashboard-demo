@@ -71,7 +71,6 @@ function Push-FileToWebApp {
             
             ## Get WebApps from current Subscription. 
             $webAppConfig = (Get-AzWebApp -name $webApp.webAppName)
-
             Write-Information ('Found WebApp: ' + $webAppConfig.name)
         }
     
@@ -88,6 +87,62 @@ function Push-FileToWebApp {
             Throw ('Upload.PushFileToApp Stage Failed!!')
         }
 
+    } catch {
+
+        Throw $_.Exception
+    
+    }
+}
+
+function Deploy-FunctionAppCode {
+    param(
+        [Parameter(Mandatory=$true,ValueFromPipeline=$true)]
+        $deployInfraOutput
+    )
+
+    ## Set Warning Message Preference
+    $WarningPreference = 'SilentlyContinue'
+
+    ## Lets do some work...
+    Try {
+        Write-Verbose('FunctionApp.Upload | Begin Deploying FunctionApp!')
+        ## Capture FunctionApp Config
+        if ($deployInfraOutput) {
+            ## Get Creds from FunctionApp vis AzResourceAction LIST
+            $getCreds = Invoke-AzResourceAction -ResourceGroupName $deployInfraOutput.Outputs.demoAppSharedResGroup.Value -ResourceType Microsoft.Web/sites/config ` -ResourceName ($($deployInfraOutput.Outputs.functionAppName.Value) + '/publishingcredentials') -Action list -Force
+            $creds = [Convert]::ToBase64String([Text.Encoding]::ASCII.GetBytes(("{0}:{1}" -f $($getCreds.Properties.PublishingUserName),$($getCreds.Properties.PublishingPassword))))
+        } else {
+            Throw ('Build.FunctionApp Stage Failed :: $deployInfraOutput is NULL or invalid.')
+        }
+        
+        ## Create Publsih Folder
+        Write-Verbose ('FunctionApp.Upload | Create Artifact Directory')
+        $buildFolderPath = New-Item -ItemType Directory './publishArtifact' -Force
+
+        ## Compress publish to artifact for FunctionApp
+        Write-Verbose('FunctionApp.Upload | Compressing /functionCode.zip and saving to ' + (($buildFolderPath).FullName + '/functionCode.zip'))
+        if (!(test-path $buildFolderPath)) {
+            Compress-Archive -Path ('../functions/*') -DestinationPath (($buildFolderPath).FullName + '/functionCode.zip')
+        } else {
+            Remove-Item (($buildFolderPath).FullName + '/functionCode.zip') -Force
+            Compress-Archive -Path ('../functions/*') -DestinationPath (($buildFolderPath).FullName + '/functionCode.zip')
+        }
+
+        ## Push ZIP to FunctionApp
+        $functionApiUrl = ('https://' + $deployInfraOutput.Outputs.functionAppName.Value + '.scm.azurewebsites.net/api/zip/site/wwwroot')
+        Write-Verbose(' FunctionApp.Upload | Uploading FunctionApp Artifact to ' +  $functionApiUrl)
+        if ($creds) {
+
+            ## Call API
+            $headers = @{Authorization=('Basic ' + $creds)}
+
+            Invoke-RestMethod -Uri $functionApiUrl `
+                -Headers $headers `
+                -Method PUT `
+                -InFile (($buildFolderPath).FullName + '/functionCode.zip') `
+                -ContentType "multipart/form-data"
+        }
+    
     } catch {
 
         Throw $_.Exception
@@ -258,27 +313,29 @@ Try {
     ### Create Url for demoApp
     $url = ('https://' + $paramsFiles.Parameters.demoAppName.value + '.' + $paramsFiles.Parameters.dnsObject.value.name)
 
-    ### Update WebTest XML files before running Bicep
+    ### Update WebTest XML files before running Bicep as there is a dependency on these files existing in the main.bicep
     if (!(Test-Path ../webTest/webTestPrimaryRegion.xml)) {
+        $primaryTestPath = (New-Item '../webTest/webTestPrimaryRegion.xml')
         ## Configure Primary webTest
         [XML]$webTestPrimarySrc = (Get-Content -Path(Resolve-Path ../webTest/webTestTemplate.xml).path)
         $webTestPrimarySrc.WebTest.Name = ($paramsFiles.Parameters.demoAppName.value + '-' + $paramsFiles.Parameters.primaryRegion.value)
         $webTestPrimarySrc.WebTest.Id = (New-Guid)
         $webTestPrimarySrc.WebTest.Items.Request.Guid = (New-Guid)
         $webTestPrimarySrc.WebTest.Items.Request.Url = ($url)
-        $webTestPrimarySrc.Save((New-Item '../webTest/webTestPrimaryRegion.xml'))
+        $webTestPrimarySrc.Save($primaryTestPath)
         Write-Information ('Main.WebTestXMLCreatePrimary Successful! webTestPrimaryRegion.xml Created.')
     } else {
         Write-Information ('Main.WebTestXMLCreatePrimary Successful! webTestPrimaryRegion.xml already existed.')
     } 
-    if (!(Test-Path ../webTest/webTestSecondaryRegion.xml).path) {
+    if (!(Test-Path ../webTest/webTestSecondaryRegion.xml)) {
+        $secondaryTestPath = (New-Item '../webTest/webTestSecondaryRegion.xml')
         ## Configure Secondary webTest
         [XML]$webTestSecondarySrc = (Get-Content -Path (Resolve-Path ../webTest/webTestTemplate.xml).path)
         $webTestSecondarySrc.WebTest.Name = ($paramsFiles.Parameters.demoAppName.value + '-' + $paramsFiles.Parameters.primaryRegion.value)
         $webTestSecondarySrc.WebTest.Id = (New-Guid)
         $webTestSecondarySrc.WebTest.Items.Request.Guid = (New-Guid)
         $webTestSecondarySrc.WebTest.Items.Request.Url = ($url)
-        $webTestSecondarySrc.Save((New-Item '../webTest/webTestSecondaryRegion.xml'))
+        $webTestSecondarySrc.Save($secondaryTestPath)
         Write-Information ('Main.WebTestXMLCreateSecondary Successful! webTestSecondaryRegion.xml Created.')
     } else {
         Write-Information ('Main.WebTestXMLCreateSecondary Successful! webTestSecondaryRegion.xml already existed.')
@@ -341,6 +398,14 @@ Try {
         } else { 
             Throw ('Main.UploadFiles Stage Failed!! | WebAppObj is NULL')
         }
+    }
+
+    # Call Deploy-FunctionAppCode to upload our FunctionApp!
+    Write-Information ('Begin Deploying FunctionApp Code.')
+    if ($deployInfraOutput) {
+        [void](Deploy-FunctionAppCode -deployInfraOutput $deployInfraOutput)
+    } else {
+        Throw ('Main.UploadFunctionApp Stage Failed!! | $deployInfraOutput is NULL')
     }
 
     if ($uploadReturn) {

@@ -167,4 +167,49 @@ function Set-GrafanaDashboards {
     } catch {
         throw $_.Exception
     }
+};
+
+
+Function scratchTheItch {
+
+    let regToCoords = dynamic({
+        "Southeast Asia":
+          {
+            "latitude": 1.283,
+            "longitude": 103.833
+          },
+          "East US":
+          {
+            "latitude": 37.3719,
+            "longitude": -79.8164
+          },
+          "West US":
+          {
+            "latitude": 37.783,
+            "longitude": -122.417
+          },
+          "North Europe":
+          {
+            "latitude": 53.3478,
+            "longitude": -6.2597
+          },
+          "Japan East":
+          {
+            "latitude": 35.68,
+            "longitude": 139.77
+          },
+          "Brazil South":
+          {
+            "latitude": -23.55,
+            "longitude": -46.633
+          }
+      });
+      availabilityResults
+      | where timestamp >= $__timeFrom and timestamp < $__timeTo
+      | where name in ($avTest) and true and location in ($reg)
+      | extend latitude = tostring(regToCoords[location]["latitude"])
+      | extend longitude = tostring(regToCoords[location]["longitude"])
+      | extend percentage = toint(success) * 100
+      | summarize avg(percentage) by name, location, latitude, longitude
+
 }

@@ -52,7 +52,7 @@ var appResources = {
     name: '${prefix}-${secondaryRegion}-demoapp'
     region: secondaryRegion
     ResGroup: createResGroup[2].name
-    webTestValue: loadTextContent('../code/webTest/webTestSecondaryRegion.xml') 
+    webTestValue: loadTextContent('../code/webTest/webTestSecondaryRegion.xml')
   }
 }
 var resGroupObject = {
@@ -125,6 +125,20 @@ module logAnalytics 'modules/logAalytics.bicep' = {
   }
 }
 
+// Deploy Azure FunctionApp
+module functionApp 'modules/functionApp.bicep' = {
+  name: '${prefix}-${demoAppName}-func'
+  scope: resourceGroup(createResGroup[0].name)
+  params: {
+    resourceTags: tags
+    applicationName: '${prefix}-${demoAppName}-func'
+    region: primaryRegion
+    logAnalyticsWorkspaceId: logAnalytics.outputs.logAnalyticsWorkspaceId
+    demoAppUrl: 'https://${domainFQDN}'
+  }
+}
+
+
 // Deploy Azure Managed Grafana
 module grafanaDashboard 'modules/grafana.bicep' = {
   name: '${prefix}-${demoAppName}-grafana'
@@ -144,6 +158,7 @@ module roleAssignment 'modules/roleAssignment.bicep' = [for rg in items(resGroup
   params: {
     grafanaPrincipalId: grafanaDashboard.outputs.grafanaSMI
     grafanaAADId: grafanaAADId
+    functionAppSME: functionApp.outputs.functionAppSME
   }
 }]
 
@@ -205,6 +220,10 @@ output domainFQDN string = domainFQDN
 output grafanaEndpoint string = grafanaDashboard.outputs.grafanaEndpoint
 output keyvaultName string = keyvault.outputs.keyvaultName
 output keyvaultId string = keyvault.outputs.keyvaultId
+output functionAppName string = functionApp.outputs.functionAppName
+output functionAppId string = functionApp.outputs.functionAppId
+output demoAppSharedResGroup string = createResGroup[0].name
+
 output WebAppInfo array = [for i in range(0, length(appResources)): {
   webAppName: webApp[i].outputs.webAppName
   webAppFQDN: webApp[i].outputs.webAppFQDN
