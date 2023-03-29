@@ -203,7 +203,7 @@ function Deploy-Infrastructure {
 
 "@
       Write-Information ('Begin Deployment: ' + $demoDeploymentName)
-      Write-Information ('Time Started: ' + $(Get-Date) +' | [This process can take a bit to complete. Coffee Time!] |')
+      Write-Information ('Time Started: ' + $(Get-Date) +' | [This process can take a bit to complete. Coffee Time!]')
       Write-Information ($coffeeTimeAscii)
       ## Deploy Infrastructure and Return Object
       $deployment = (New-AzSubscriptionDeployment `
@@ -309,38 +309,43 @@ Try {
     ## Create Artifact Path
     $artifactFolderPath = New-Item -ItemType Directory './publishArtifact' -Force
     $pathToArtifact = ($artifactFolderPath.name + '/artifact.zip')
-    Write-Information ('Current Working Directory: ' + $(Get-Location))
 
     ### Create Url for demoApp
     $url = ('https://' + $paramsFiles.Parameters.demoAppName.value + '.' + $paramsFiles.Parameters.dnsObject.value.name)
 
+    if (!(Test-Path ../webTest/webTestPrimaryRegion.xml)) { 
+        $primaryTestPath = (New-Item ../webTest/webTestPrimaryRegion.xml)
+    } 
+    if (!(Test-Path ../webTest/webTestSecondaryRegion.xml)) {
+        $secondaryTestPath = (New-Item ../webTest/webTestSecondaryRegion.xml)
+    }
+
     ### Update WebTest XML files before running Bicep as there is a dependency on these files existing in the main.bicep
-    $PWD
     if (Test-Path ../webTest/webTestPrimaryRegion.xml) {
-        $primaryTestPath = ((Resolve-Path '../webTest/webTestPrimaryRegion.xml').Path)   
+        $primaryTestPath = ((Resolve-Path ../webTest/webTestPrimaryRegion.xml).path)
         ## Configure Primary webTest
-        [XML]$webTestPrimarySrc = ((Resolve-Path '../webTest/webTestPrimaryRegion.xml').Path)  
+        [XML]$webTestPrimarySrc = (Get-Content -Path(Resolve-Path ../webTest/webTestTemplate.xml).path)
         $webTestPrimarySrc.WebTest.Name = ($paramsFiles.Parameters.demoAppName.value + '-' + $paramsFiles.Parameters.primaryRegion.value)
-        $webTestPrimarySrc.WebTest.Id = (New-Guid)
-        $webTestPrimarySrc.WebTest.Items.Request.Guid = (New-Guid)
+        $webTestPrimarySrc.WebTest.Id = (New-Guid).Guid
+        $webTestPrimarySrc.WebTest.Items.Request.Guid = (New-Guid).Guid
         $webTestPrimarySrc.WebTest.Items.Request.Url = ($url)
         $webTestPrimarySrc.Save($primaryTestPath)
-        Write-Information ('Main.WebTestXMLCreatePrimary Successful! webTestPrimaryRegion.xml Created.')
+        Write-Information ('Main.WebTestXMLCreatePrimary Successful! webTestPrimaryRegion.xml Updated.')
     } else {
-        Write-Information ('Main.WebTestXMLCreatePrimary Failed! webTestPrimaryRegion.xml is missing.')
+        Write-Information ('Main.WebTestXMLCreatePrimary Failed! webTestPrimaryRegion.xml missing!')
     } 
     if (Test-Path ../webTest/webTestSecondaryRegion.xml) {
-        $secondaryTestPath = ((Resolve-Path '../webTest/webTestSecondaryRegion.xml').Path) 
+        $secondaryTestPath = ((Resolve-Path ../webTest/webTestSecondaryRegion.xml).path)
         ## Configure Secondary webTest
-        [XML]$webTestSecondarySrc = ((Resolve-Path '../webTest/webTestSecondaryRegion.xml').Path) 
+        [XML]$webTestSecondarySrc = (Get-Content -Path (Resolve-Path ../webTest/webTestTemplate.xml).path)
         $webTestSecondarySrc.WebTest.Name = ($paramsFiles.Parameters.demoAppName.value + '-' + $paramsFiles.Parameters.primaryRegion.value)
-        $webTestSecondarySrc.WebTest.Id = (New-Guid)
-        $webTestSecondarySrc.WebTest.Items.Request.Guid = (New-Guid)
+        $webTestSecondarySrc.WebTest.Id = (New-Guid).Guid
+        $webTestSecondarySrc.WebTest.Items.Request.Guid = (New-Guid).Guid
         $webTestSecondarySrc.WebTest.Items.Request.Url = ($url)
         $webTestSecondarySrc.Save($secondaryTestPath)
-        Write-Information ('Main.WebTestXMLCreateSecondary Successful! webTestSecondaryRegion.xml Created.')
+        Write-Information ('Main.WebTestXMLCreateSecondary Successful! webTestSecondaryRegion.xml Updated.')
     } else {
-        Write-Information ('Main.WebTestXMLCreateSecondary Failed! webTestSecondaryRegion.xml is missing.')
+        Write-Information ('Main.WebTestXMLCreateSecondary Failed! webTestSecondaryRegion.xml missing!')
     } 
 
     # Validate Existing AzContext and Subscription
