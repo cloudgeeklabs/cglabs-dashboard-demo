@@ -319,7 +319,7 @@ Try {
     if (Test-Path ../webTest/webTestPrimaryRegion.xml) {
         $primaryTestPath = ((Resolve-Path '../webTest/webTestPrimaryRegion.xml').Path)   
         ## Configure Primary webTest
-        [XML]$webTestPrimarySrc = ((Resolve-Path ../webTest/webTestTemplate.xml).path)
+        [XML]$webTestPrimarySrc = ((Resolve-Path '../webTest/webTestPrimaryRegion.xml').Path)  
         $webTestPrimarySrc.WebTest.Name = ($paramsFiles.Parameters.demoAppName.value + '-' + $paramsFiles.Parameters.primaryRegion.value)
         $webTestPrimarySrc.WebTest.Id = (New-Guid)
         $webTestPrimarySrc.WebTest.Items.Request.Guid = (New-Guid)
@@ -332,7 +332,7 @@ Try {
     if (Test-Path ../webTest/webTestSecondaryRegion.xml) {
         $secondaryTestPath = ((Resolve-Path '../webTest/webTestSecondaryRegion.xml').Path) 
         ## Configure Secondary webTest
-        [XML]$webTestSecondarySrc = (Get-Content -Path (Resolve-Path ../webTest/webTestTemplate.xml).path)
+        [XML]$webTestSecondarySrc = ((Resolve-Path '../webTest/webTestSecondaryRegion.xml').Path) 
         $webTestSecondarySrc.WebTest.Name = ($paramsFiles.Parameters.demoAppName.value + '-' + $paramsFiles.Parameters.primaryRegion.value)
         $webTestSecondarySrc.WebTest.Id = (New-Guid)
         $webTestSecondarySrc.WebTest.Items.Request.Guid = (New-Guid)
