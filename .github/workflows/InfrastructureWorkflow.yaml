@@ -30,8 +30,8 @@ jobs:
         inlineScript: |
           $WarningPreference = 'SilentlyContinue'
           [void](Set-AzContext -SubscriptionId ${{ env.demoSubscriptionId }})
-          (New-Item '../webTest/webTestPrimaryRegion.xml')
-          (New-Item '../webTest/webTestSecondaryRegion.xml')
+          (New-Item ((new-object system.io.directoryinfo $pwd).parent.fullname + '\webTest\webTestPrimaryRegion.xml'))
+          (New-Item ((new-object system.io.directoryinfo $pwd).parent.fullname + '\webTest\webTestSecondaryRegion.xml'))
           $deployment = New-AzSubscriptionDeployment `
             -Name '${{ env.demoDeploymentName }}' `
             -location '${{ env.demoLocation }}' `
