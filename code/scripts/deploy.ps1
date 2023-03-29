@@ -323,7 +323,7 @@ Try {
         $webTestPrimarySrc.WebTest.Id = (New-Guid)
         $webTestPrimarySrc.WebTest.Items.Request.Guid = (New-Guid)
         $webTestPrimarySrc.WebTest.Items.Request.Url = ($url)
-        $webTestPrimarySrc.Save($primaryTestPath)
+        $webTestPrimarySrc.Save('../webTest/webTestPrimaryRegion.xml')
         Write-Information ('Main.WebTestXMLCreatePrimary Successful! webTestPrimaryRegion.xml Created.')
     } else {
         Write-Information ('Main.WebTestXMLCreatePrimary Failed! webTestPrimaryRegion.xml is missing.')
@@ -335,7 +335,7 @@ Try {
         $webTestSecondarySrc.WebTest.Id = (New-Guid)
         $webTestSecondarySrc.WebTest.Items.Request.Guid = (New-Guid)
         $webTestSecondarySrc.WebTest.Items.Request.Url = ($url)
-        $webTestSecondarySrc.Save($secondaryTestPath)
+        $webTestSecondarySrc.Save('../webTest/webTestSecondaryRegion.xml')
         Write-Information ('Main.WebTestXMLCreateSecondary Successful! webTestSecondaryRegion.xml Created.')
     } else {
         Write-Information ('Main.WebTestXMLCreateSecondary Failed! webTestSecondaryRegion.xml is missing.')
