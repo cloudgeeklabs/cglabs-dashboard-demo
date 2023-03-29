@@ -317,25 +317,27 @@ Try {
     ### Update WebTest XML files before running Bicep as there is a dependency on these files existing in the main.bicep
     $PWD
     if (Test-Path ../webTest/webTestPrimaryRegion.xml) {
+        $primaryTestPath = ((Resolve-Path '../webTest/webTestPrimaryRegion.xml').Path)   
         ## Configure Primary webTest
-        [XML]$webTestPrimarySrc = (Get-Content -Path(Resolve-Path ../webTest/webTestTemplate.xml).path)
+        [XML]$webTestPrimarySrc = ((Resolve-Path ../webTest/webTestTemplate.xml).path)
         $webTestPrimarySrc.WebTest.Name = ($paramsFiles.Parameters.demoAppName.value + '-' + $paramsFiles.Parameters.primaryRegion.value)
         $webTestPrimarySrc.WebTest.Id = (New-Guid)
         $webTestPrimarySrc.WebTest.Items.Request.Guid = (New-Guid)
         $webTestPrimarySrc.WebTest.Items.Request.Url = ($url)
-        $webTestPrimarySrc.Save('../webTest/webTestPrimaryRegion.xml')
+        $webTestPrimarySrc.Save($primaryTestPath)
         Write-Information ('Main.WebTestXMLCreatePrimary Successful! webTestPrimaryRegion.xml Created.')
     } else {
         Write-Information ('Main.WebTestXMLCreatePrimary Failed! webTestPrimaryRegion.xml is missing.')
     } 
     if (Test-Path ../webTest/webTestSecondaryRegion.xml) {
+        $secondaryTestPath = ((Resolve-Path '../webTest/webTestSecondaryRegion.xml').Path) 
         ## Configure Secondary webTest
         [XML]$webTestSecondarySrc = (Get-Content -Path (Resolve-Path ../webTest/webTestTemplate.xml).path)
         $webTestSecondarySrc.WebTest.Name = ($paramsFiles.Parameters.demoAppName.value + '-' + $paramsFiles.Parameters.primaryRegion.value)
         $webTestSecondarySrc.WebTest.Id = (New-Guid)
         $webTestSecondarySrc.WebTest.Items.Request.Guid = (New-Guid)
         $webTestSecondarySrc.WebTest.Items.Request.Url = ($url)
-        $webTestSecondarySrc.Save('../webTest/webTestSecondaryRegion.xml')
+        $webTestSecondarySrc.Save($secondaryTestPath)
         Write-Information ('Main.WebTestXMLCreateSecondary Successful! webTestSecondaryRegion.xml Created.')
     } else {
         Write-Information ('Main.WebTestXMLCreateSecondary Failed! webTestSecondaryRegion.xml is missing.')
