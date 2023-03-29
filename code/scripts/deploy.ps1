@@ -316,8 +316,7 @@ Try {
 
     ### Update WebTest XML files before running Bicep as there is a dependency on these files existing in the main.bicep
     $PWD
-    if (!(Test-Path ../webTest/webTestPrimaryRegion.xml)) {
-        $primaryTestPath = (New-Item -Type File -Path '..\webTest\webTestPrimaryRegion.xml')
+    if (Test-Path ../webTest/webTestPrimaryRegion.xml) {
         ## Configure Primary webTest
         [XML]$webTestPrimarySrc = (Get-Content -Path(Resolve-Path ../webTest/webTestTemplate.xml).path)
         $webTestPrimarySrc.WebTest.Name = ($paramsFiles.Parameters.demoAppName.value + '-' + $paramsFiles.Parameters.primaryRegion.value)
@@ -327,10 +326,9 @@ Try {
         $webTestPrimarySrc.Save($primaryTestPath)
         Write-Information ('Main.WebTestXMLCreatePrimary Successful! webTestPrimaryRegion.xml Created.')
     } else {
-        Write-Information ('Main.WebTestXMLCreatePrimary Successful! webTestPrimaryRegion.xml already existed.')
+        Write-Information ('Main.WebTestXMLCreatePrimary Failed! webTestPrimaryRegion.xml is missing.')
     } 
-    if (!(Test-Path ../webTest/webTestSecondaryRegion.xml)) {
-        $secondaryTestPath = (New-Item New-Item -Type File -Path '..\webTest\webTestSecondaryRegion.xml')
+    if (Test-Path ../webTest/webTestSecondaryRegion.xml) {
         ## Configure Secondary webTest
         [XML]$webTestSecondarySrc = (Get-Content -Path (Resolve-Path ../webTest/webTestTemplate.xml).path)
         $webTestSecondarySrc.WebTest.Name = ($paramsFiles.Parameters.demoAppName.value + '-' + $paramsFiles.Parameters.primaryRegion.value)
@@ -340,7 +338,7 @@ Try {
         $webTestSecondarySrc.Save($secondaryTestPath)
         Write-Information ('Main.WebTestXMLCreateSecondary Successful! webTestSecondaryRegion.xml Created.')
     } else {
-        Write-Information ('Main.WebTestXMLCreateSecondary Successful! webTestSecondaryRegion.xml already existed.')
+        Write-Information ('Main.WebTestXMLCreateSecondary Failed! webTestSecondaryRegion.xml is missing.')
     } 
 
     # Validate Existing AzContext and Subscription
