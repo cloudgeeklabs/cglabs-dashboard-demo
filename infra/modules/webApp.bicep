@@ -25,6 +25,9 @@ param logAnalyticsWorkspaceId string
 @description('TrafficManager Globally Unique Name')
 param trafficManagerName string
 
+@description('WebTest XML Value')
+param webTestValue string
+
 param resourceTags object
 
 // Variables 
@@ -61,7 +64,7 @@ resource appWebTest 'Microsoft.Insights/webtests@2022-06-15' = {
   properties: {
     Name: '${applicationName}-pingTest'
     Configuration: {
-      WebTest: '<WebTest Name="NAME" Id="GUID" Enabled="True" CssProjectStructure="" CssIteration="" Timeout="120" WorkItemIds="" xmlns="http://microsoft.com/schemas/VisualStudio/TeamTest/2010" Description="" CredentialUserName="" CredentialPassword="" PreAuthenticate="True" Proxy="default" StopOnError="False" RecordedResultFile="" ResultsLocale="" ><Items><Request Method="GET" Guid="GUID" Version="1.1" Url="URL" ThinkTime="0" Timeout="120" ParseDependentRequests="False" FollowRedirects="True" RecordResult="True" Cache="False" ResponseTimeGoal="0" Encoding="utf-8" ExpectedHttpStatusCode="200" ExpectedResponseUrl="" ReportingName="" IgnoreHttpStatusCode="False" /></Items></WebTest>'
+      WebTest: webTestValue
     }
     Locations: [
       {
@@ -71,7 +74,7 @@ resource appWebTest 'Microsoft.Insights/webtests@2022-06-15' = {
         Id:  'us-va-ash-azr'
       }
       {
-        Id:  'emea-gb-db3-azr'
+        Id:  'emea-gb-db3-azr' 
       }
       {
         Id:  'apac-sg-sin-azr'
@@ -79,21 +82,22 @@ resource appWebTest 'Microsoft.Insights/webtests@2022-06-15' = {
     ]
     Kind: 'standard'
     Enabled: true
-    Description: 'Run a Ping Test against FQDN.'
+    Description: 'Run a GET (curl) against FQDN.'
     Frequency: 300
     RetryEnabled: true
     Timeout: 120
     SyntheticMonitorId: '${applicationName}-webtest'
     Request: {
       FollowRedirects: true
-      HttpVerb: 'Get'
-      RequestUrl: domainFQDN
-      ParseDependentRequests: false
+      HttpVerb: 'GET'
+      RequestUrl: 'https://${domainFQDN}'
+      ParseDependentRequests: true
     }
     ValidationRules: {
       ExpectedHttpStatusCode: 200
       IgnoreHttpStatusCode: true
-      SSLCheck: false
+      SSLCheck: true
+      SSLCertRemainingLifetimeCheck: 7
     }
   }
 }
@@ -365,11 +369,11 @@ module enableSNIWebApp 'enableSNIWebApp.bicep' = {
   }
 }
 
-
 // Output AppServices Configs
-output appWebTestLocations string = string(appWebTest.properties.Locations)
 output webAppFQDN string = webApp.properties.defaultHostName
 output appInsightsName string = appInsights.name
 output managedCertThumbprint string = generateManagedCert.properties.thumbprint
 output managedCertName string = generateManagedCert.name
-
+output webAppName string = webApp.name
+output webAppResGroup string = webApp.properties.resourceGroup
+output webAppRegion string = webApp.location

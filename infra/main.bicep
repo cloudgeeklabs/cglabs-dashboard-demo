@@ -1,7 +1,13 @@
 targetScope='subscription'
 
+@description('Deployed By Information - basically who is deploying this.')
+param deployedBy string = 'DEFAULT'
+
 @description('Primary region of the application')
 param primaryRegion string
+
+@description('AAD User to be configured for Grafana Dashboard Admin.')
+param grafanaAADId string
 
 @description('Secondary region of the application')
 param secondaryRegion string
@@ -21,12 +27,18 @@ param dateTime string = utcNow('u')
 @description('Default resourceTags defined for all resources in the Demo!')
 param resourceTags object
 
+@description('Name of Deployment Associated with this Build')
+param demoDeploymentName string
+
+@description('SubscriptionId used for our Demo Environment!')
+param subscriptionId string
 
 // Setup main.bicep Variables Section
 var domainFQDN = '${demoAppName}.${dnsObject.name}'
 var prefix = toLower(resourcePrefix)
 var trafficManagerName = '${demoAppName}${uniqueString(primaryRegion)}' //Must be Globally Unique
 var tags = union(resourceTags,{
+  DeployedBy: deployedBy // This can be passed in via Commandline or CICD to identify last Contributor
   LastDeployment: dateTime // updating tags to include "LastDeployment" date/time value
 })
 var appResources = {
@@ -34,11 +46,13 @@ var appResources = {
     name: '${prefix}-${primaryRegion}-demoapp'
     region: primaryRegion
     ResGroup: createResGroup[1].name
+    webTestValue: loadTextContent('../code/webTest/webTestPrimaryRegion.xml') 
   }
   app2: {
     name: '${prefix}-${secondaryRegion}-demoapp'
     region: secondaryRegion
     ResGroup: createResGroup[2].name
+    webTestValue: loadTextContent('../code/webTest/webTestSecondaryRegion.xml')
   }
 }
 var resGroupObject = {
@@ -69,7 +83,10 @@ var resGroupObject = {
 resource createResGroup 'Microsoft.Resources/resourceGroups@2021-01-01' = [for rg in items(resGroupObject): {
   name: rg.value.name
   location: rg.value.location
-  tags: rg.value.tags
+  tags: union(rg.value.tags,{
+    deploymentName: demoDeploymentName // Name of Deployment Associated with this Build
+    subscriptionId: subscriptionId // Subscription Associated With this Build
+  })
 }]
 
 // Deploy Logs Storage Account - will use this to collect Billing and CustomLogs for Dashboard
@@ -80,8 +97,20 @@ module logsSA 'modules/storageAccount.bicep' = {
     resourceTags: union(tags, {
       Notes: 'Used to store Billing and AAD Logs for Dashboard Usage!'
     })
-    applicationName: '${prefix}logstorage'
+    applicationName: toLower('${prefix}logstorage')
     region: primaryRegion
+  }
+}
+
+// Deploy Azure KeyVault for Certificate and Secrets
+module keyvault 'modules/keyVault.bicep' = {
+  name: '${prefix}-${demoAppName}-kv'
+  scope: resourceGroup(createResGroup[0].name)
+  params: {
+    applicationName: toLower('${prefix}-${demoAppName}-kv')
+    region: primaryRegion
+    logAnalyticsWorkspaceId: logAnalytics.outputs.logAnalyticsWorkspaceId
+    resourceTags: tags
   }
 }
 
@@ -92,28 +121,44 @@ module logAnalytics 'modules/logAalytics.bicep' = {
   params: {
     resourceTags: tags
     primaryRegion: primaryRegion
-    workspaceName: '${prefix}-${demoAppName}-law'
+    workspaceName: toLower('${prefix}-${demoAppName}-law')
   }
 }
+
+// Deploy Azure FunctionApp
+module functionApp 'modules/functionApp.bicep' = {
+  name: '${prefix}-${demoAppName}-func'
+  scope: resourceGroup(createResGroup[0].name)
+  params: {
+    resourceTags: tags
+    applicationName: '${prefix}-${demoAppName}-func'
+    region: primaryRegion
+    logAnalyticsWorkspaceId: logAnalytics.outputs.logAnalyticsWorkspaceId
+    demoAppUrl: 'https://${domainFQDN}'
+  }
+}
+
 
 // Deploy Azure Managed Grafana
 module grafanaDashboard 'modules/grafana.bicep' = {
   name: '${prefix}-${demoAppName}-grafana'
   scope: resourceGroup(createResGroup[0].name)
   params: {
-    applicationName: '${prefix}-grafana' //Workspace names must be between 2 to 23 characters long
+    applicationName: toLower('${prefix}-grafana') //Workspace names must be between 2 to 23 characters long
     resourceTags: tags
     region: primaryRegion
     logAnalyticsWorkspaceId: logAnalytics.outputs.logAnalyticsWorkspaceId
   }
 }
 
-// Set Grafana SMI to required RBAC Roles on all ResourceGroups() defined in var.resGroupObject
+// Set Grafana Required Roles at Subscription Scope
 module roleAssignment 'modules/roleAssignment.bicep' = [for rg in items(resGroupObject):  {
   name: '${rg.value.name}-roleAssignments'
-  scope: resourceGroup(rg.value.name)
+  scope: subscription()
   params: {
     grafanaPrincipalId: grafanaDashboard.outputs.grafanaSMI
+    grafanaAADId: grafanaAADId
+    functionAppSME: functionApp.outputs.functionAppSME
   }
 }]
 
@@ -123,14 +168,14 @@ module cosmosdb 'modules/cosmos.bicep' = {
   scope: resourceGroup(createResGroup[0].name)
   params: {
     resourceTags: tags
-    applicationName: '${prefix}-${demoAppName}-cosmodb'
+    applicationName: toLower('${prefix}-${demoAppName}-cosmodb')
     secondaryRegion: secondaryRegion
     logAnalyticsWorkspaceId: logAnalytics.outputs.logAnalyticsWorkspaceId
     primaryRegion: primaryRegion
   }
 }
 
-// Deploy WebApp and Associated Services
+// Deploy WebApp and Associated Services (done 1 at a time to avoid race condition with validating DNS)
 @batchSize(1)
 module webApp 'modules/webApp.bicep' = [for app in items(appResources): {
   name: app.value.name
@@ -140,7 +185,7 @@ module webApp 'modules/webApp.bicep' = [for app in items(appResources): {
       'WebApp Name': app.value.name
       Region: app.value.region
     })
-    applicationName: app.value.name
+    applicationName: toLower(app.value.name)
     demoAppName: demoAppName
     dnsObject: dnsObject
     logAnalyticsWorkspaceId: logAnalytics.outputs.logAnalyticsWorkspaceId
@@ -149,6 +194,7 @@ module webApp 'modules/webApp.bicep' = [for app in items(appResources): {
     cosmosdbEndpoint: cosmosdb.outputs.cosmosdbEndpoint
     cosmosdbId: cosmosdb.outputs.cosmosdbId
     trafficManagerName: trafficManagerName
+    webTestValue: app.value.webTestValue
   }
 }]
 
@@ -158,7 +204,7 @@ module trafficManager 'modules/trafficManager.bicep' = {
   scope: resourceGroup(createResGroup[0].name)
   params: {
     resourceTags: tags
-    applicationName: '${prefix}-${demoAppName}-tm'
+    applicationName: toLower('${prefix}-${demoAppName}-tm')
     cnameRecordValue: trafficManagerName
     logAnalyticsWorkspaceId: logAnalytics.outputs.logAnalyticsWorkspaceId
     primaryRegionFqdn: webApp[0].outputs.webAppFQDN
@@ -168,25 +214,22 @@ module trafficManager 'modules/trafficManager.bicep' = {
 
 // Output Primary Information
 output dateTime string = dateTime
-output subscriptionId string = subscription().subscriptionId
-output demoAppSharedResGroupName string = createResGroup[0].name
-output demoAppPrimaryResGroupName string = createResGroup[1].name
-output demoAppSecondaryResGroupName string = createResGroup[2].name
+output deployedBy string = deployedBy
 output demoAppName string = demoAppName
-output primaryRegion string = primaryRegion
-output secondaryRegion string = secondaryRegion
 output domainFQDN string = domainFQDN
-
-// Output Storage Account Info
-output logsStorageAccountName string = logsSA.outputs.logStorageAccountName
-output logStorageAccountBlobEndpoint string = logsSA.outputs.logStorageAccountBlobEndpoint
-
-// Output Log Analytic Workspace Info
-output logAnalyticsWorkspaceId string = logAnalytics.outputs.logAnalyticsWorkspaceId
-output logAnalyticsWorkspaceName string = logAnalytics.outputs.logAnalyticsWorkspaceName
-
-// Output Grafana Dashboard Info
-output grafanaSMI string = grafanaDashboard.outputs.grafanaSMI
-output grafanaOutboundIP01 string = grafanaDashboard.outputs.grafanaOutboundIP01
-output grafanaOutboundIP02 string = grafanaDashboard.outputs.grafanaOutboundIP02
 output grafanaEndpoint string = grafanaDashboard.outputs.grafanaEndpoint
+output keyvaultName string = keyvault.outputs.keyvaultName
+output keyvaultId string = keyvault.outputs.keyvaultId
+output functionAppName string = functionApp.outputs.functionAppName
+output functionAppId string = functionApp.outputs.functionAppId
+output demoAppSharedResGroup string = createResGroup[0].name
+
+output WebAppInfo array = [for i in range(0, length(appResources)): {
+  webAppName: webApp[i].outputs.webAppName
+  webAppFQDN: webApp[i].outputs.webAppFQDN
+  appInsightsName: webApp[i].outputs.appInsightsName
+  managedCertThumbprint: webApp[i].outputs.managedCertThumbprint
+  managedCertName: webApp[i].outputs.managedCertName
+  webAppResGroup: webApp[i].outputs.webAppResGroup
+  webAppRegion: webApp[i].outputs.webAppRegion
+}]

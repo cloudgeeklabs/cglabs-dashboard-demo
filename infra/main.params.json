@@ -2,6 +2,18 @@
   "$schema": "https://schema.management.azure.com/schemas/2019-04-01/deploymentParameters.json#",
   "contentVersion": "1.0.0.0",
   "parameters": {
+    "subscriptionId": {
+      "value": "197f4130-ef26-4439-a354-eb5a2a2d7f85"
+    },
+    "demoDeploymentName":{
+      "value": "grafanaDemo"
+    },
+    "grafanaAADId":{
+      "metadata": {
+        "description": "This must be the ObjectId for an AAD User that will be granted RBAC Role 'Grafana Admin' at Subscription Level."
+      },
+      "value": "5343ab1e-9356-413f-a940-9db55950ea21"
+    },
     "primaryRegion": {
       "value": "eastus"
     },
@@ -12,7 +24,7 @@
       "value": "cglabs"
     },
     "demoAppName": {
-      "value": "dashapp"
+      "value": "grafanaapp"
     },
     "dnsObject": {
       "value": {
@@ -24,8 +36,7 @@
     "resourceTags": {
       "value": {
         "Environment": "PoC",
-        "Project": "Managed Grafana Demo",
-        "DeployedBy": "BenTheBuilder"
+        "Project": "Managed Grafana Demo"
       }
     }
   }

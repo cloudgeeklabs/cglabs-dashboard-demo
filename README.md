@@ -52,3 +52,16 @@ If you plan to just run this locally, you want to make sure you follow the instr
 ### Current Status of Repo ###
 
 Pending.... Still under development
+
+Steps Needed to Make things work:
+-   deployInfrastructure
+    -   Update main.params.json
+    -   Explain Grafana Admin Requirement (and how to get it)
+    -   Walk through running deployInfrastructure.ps1 script.
+-   Document "Workstation Setup" <-- Keep it simple what software to install | SDK, GIT, AZ Powershell, AZ CLI -->
+-   Download ProfileSettingsFile from AppServices
+    -   Document Adding to Variables for Repo
+    -   Docuemnt using to deployApp
+-   Build AppLication and Send to AppServices
+    -   Document Build Process
+    -   Document Copy Process

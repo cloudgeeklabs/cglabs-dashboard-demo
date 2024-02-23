@@ -50,74 +50,124 @@ cglabs-westus-dashapp-secondary
 
 <!-- markdownlint-disable MD033 -->
 <div style="padding:20px;text-align:center;">
-<img src="./topology.svg" />
+<img src="./docs/../imgs/topology.svg" />
 </div>
 
-## Step 1: Update Parameters
+<br />
+<hr>
+<br />
 
-In order to run the script, you will need to modify the `main.params.json` file and supply values for the parameters contained therein. Below is a list of the parameters, what they are for, and any particular notes to be aware of.
+## Step 1: Update Parameters ##
 
-| Parameter | Description | Notes |
-| :-        | :-          | :-           |
-| `primaryRegion` | Primary region of the application | Must be fully qualified (e.g., "East US 2"). |
-| `secondaryRegion` | Secondary region of the application | Again, must be fully qualified. |
-| `cosmosdbFailoverRegion` | A failover region for cosmos db | Again, must be fully qualified. |
-| `domainPrimaryDomain` | TLD domain name (e.g., contoso.com) | This must be an unregistered domain name. Check with GoDaddy or another service to make sure the domain is available before attempting to run this. |
+Update existing main.params.json file with your information. 
 
+<br />
+
+```json
+{
+  "$schema": "https://schema.management.azure.com/schemas/2019-04-01/deploymentParameters.json#",
+  "contentVersion": "1.0.0.0",
+  "parameters": {
+    "primaryRegion": {
+      "value": "eastus"
+    },
+    "secondaryRegion": {
+      "value": "westus"
+    },
+    "resourcePrefix": {
+      "value": "cglabs"
+    },
+    "demoAppName": {
+      "value": "dashapp"
+    },
+    "dnsObject": {
+      "value": {
+        "name": "cglabs.work",
+        "resGroup": "cglabs-core-dns",
+        "subscriptionId": "be885fcb-091a-41fe-ad69-5eea915d1211"
+      }
+    },
+    "resourceTags": {
+      "value": {
+        "Environment": "PoC",
+        "Project": "Managed Grafana Demo",
+      }
+    }
+  }
+}
+```
+<br />
+
+| Parameter               | Notes                                                                                                       |
+| :-                      | :-                                                                                                          |
+| `primaryRegion`         | Primary region of the application. Use the ShortHand (e.g., "eastus").                                      |
+| `secondaryRegion`       | Secondary region of the application. Use the ShortHand (e.g., "westus").                                    |
+| `resourcePrefix`        | This will be prefixed to all Azure ResourceGroups and Resources                                             |
+| `demoAppName`           | The name you want to give your demo - this will be used naming resources, creating the certificate, and DNS |
+| `dnsObject`             | This contains the location of your existing Azure DNS Zone that will be used to set Custom Hostname         |
+| `resourceTags`          | This will be appended to ResourceGroups and Resources.                                                      |
+
+<br />
 
 Once you've updated the parameters file and saved it, you are ready to deploy the infrastructure to Azure.
 
+<br />
+
 ## Step 2: Deploy Bicep
 
-> **NOTES:**  
->
-> 1. Given occasional race conditions with ARM, you may need to run this script more than once for everything to pass.  
-> 2. Microsoft sponsored account may not allow App Service Domains, or there is a limit. You may need to request a limit increase.
-> 3. Cosmos DB may limit your failover region due to resource constraints. If Azure throws an error, update your failover domain and rerun the scripts.
+**NOTE**
+: The below steps are only required if you plan to execute locally (please review docs for setting up everything `./docs/runlocally.md` before proceeding.). You could alternatively follow the GitHub Setup doc and use GH Workflows to deploy as well. 
 
-1. In the Azure portal, create a resource group to hold you application.
-2. Open a prompt and login to your Azure subscription using `az login`.
-3. Make sure you've selected the correct subscription (use `az account set --subscription <subscriptionId>` replacing _\<subscriptionId\>_ with your subscription's Id, if necessary)
-4. Now, run the following command, while replacing _\<resourceGroup\>_ with the name of the resource group you created in step 1.
+<br />
 
-   ```bash
-   az deployment group create 
-     --resource-group <resourceGroup>
-     --template-file main.bicep 
-     --parameters main.params.json 
-     --query properties.outputs
-   ```
+### PowerShell \ Windows ###
 
-The script may take 5-10 minutes to complete, depending on how long it takes to deploy Cosmos DB. Upon completion, the script will output JSON with the configured resources and their information.
+```powershell
+$WarningPreference = 'SilentlyContinue'
 
-> **IMPORTANT: You will need to save this information for future steps. Either open a new command prompt or shell window, or copy and paste the JSON to a temporary document for referencing later.**
+## Set AzContext to targetted Subscription and set grafanaId
+$azContext = $(Set-AzContext -SubscriptionId '197f4130-ef26-4439-a354-eb5a2a2d7f85')
+$grafanaId = ($azContext.Account.ExtendedProperties.HomeAccountId.Split('.')[0])
 
-### Variable References
-
-The output will contain a number of variables in the following format:
-
-```json
-{
-  "variableName": {
-    "type": "String",
-    "value": "variableValue"
-  }
-}
+## Deploy Infrastructure
+$deployment = New-AzSubscriptionDeployment `
+  -Name 'dashboardDemo' `
+  -location 'eastus' `
+  -TemplateFile './infra/main.bicep' `
+  -TemplateParameterFile './infra/main.params.json' `
+  -deployedBy $(whoami) `
+  -grafanaAADId $grafanaId
 ```
 
-Unless specified, throughout the remainder of the deployment instructions (in the other sections), you will see these variables referenced as `<variableName>`. Where you see `<variableName>`, you will need to replace it with its `variableValue`.
+<br />
 
-For example, some of the variables returned will include the following (yours will be different):
+ > **IMPORTANT: A sample Powershell Script with above code is located under `./code/scripts/deployMain.ps1`**
 
-```json
-{
-  "resourceGroup": {
-    "type": "String",
-    "value": "grafana-demo"
-  },
-  "primaryAppSiteName": {
-    "type": "String",
-    "value": "grafana-demo-primary"
-  }
-}
+<br />
+
+### Azure CLI \ Bash ###
+
+```bash
+# Login to Azure CLI
+az login
+
+# Set AzContext to targetted Subscription 
+az account set --subscription 'REPLACE WITH SUBSCRIPTION ID'
+
+# Deploy Infrastructure (Be sure to capture the output json - it'll be needed for later!)
+az deployment sub create --location 'eastus' --template-file ./infra/main.bicep --parameters ./main.params.json --parameters deployedBy=$(whoami)
 ```
+  
+<br />
+
+### Output ###
+> **IMPORTANT: The script may take 5-10 minutes to complete, depending on how long it takes to deploy Upon completion, the script will output JSON with the configured resources and their information..**
+
+<br />
+
+Eventually you will see the following ResourceGroups (names will be differnt) show up under your subscription. 
+
+<!-- markdownlint-disable MD033 -->
+<div style="padding:20px;text-align:center;">
+<img src="./docs/imgs/../../imgs/sampleResGroupOutput.jpg" />
+</div>
